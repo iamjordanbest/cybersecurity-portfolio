@@ -1,0 +1,98 @@
+# GRC Risk Scoring Configuration
+# This file defines the weights and multipliers used in risk score calculations
+
+# Risk Score Formula:
+# risk_score = control_weight × status_multiplier × staleness_factor × business_impact_weight
+
+scoring:
+  # Status Multipliers
+  # Applied based on control implementation status
+  status_multipliers:
+    fail: 3.0              # Critical - control completely failed
+    not_tested: 2.0        # High risk - unknown state
+    warn: 1.5              # Moderate - partial implementation
+    not_applicable: 0.0    # No risk - control doesn't apply
+    pass: 0.1              # Low residual risk - control working
+
+  # Business Impact Weights
+  # Reflects the criticality of the control to business operations
+  business_impact_weights:
+    critical: 2.0          # Business-critical systems
+    high: 1.5              # Important business functions
+    medium: 1.0            # Standard operations
+    low: 0.5               # Minor/support functions
+
+  # Remediation Cost Factors
+  # Used for ROI calculations
+  remediation_costs:
+    low: 1.0               # < 40 hours effort
+    medium: 2.5            # 40-160 hours effort
+    high: 5.0              # > 160 hours effort
+
+  # Staleness Calculation
+  # Penalties for overdue controls
+  staleness:
+    enabled: true
+    base_factor: 1.0
+    # Additional penalty per day overdue
+    daily_penalty: 0.00274  # ~1.0 increase per year (1/365)
+    max_factor: 3.0         # Cap at 3x risk for very old controls
+
+  # Control Type Base Weights
+  # NIST control types have inherent risk profiles
+  control_types:
+    preventive: 1.2        # Highest priority - prevents incidents
+    detective: 1.0         # Standard - detects issues
+    corrective: 0.8        # Lower priority - fixes after detection
+
+  # Automation Bonus
+  # Automated controls generally lower risk
+  automation_factor:
+    automated: 0.8         # 20% risk reduction for automated controls
+    manual: 1.0            # No reduction for manual controls
+
+# Overall Compliance Score Calculation
+# Score = 100 - (aggregate_risk / max_possible_risk × 100)
+compliance_score:
+  perfect_score: 100
+  # Thresholds for compliance levels
+  thresholds:
+    excellent: 95          # 95-100%
+    good: 85               # 85-94%
+    acceptable: 75         # 75-84%
+    needs_improvement: 60  # 60-74%
+    poor: 0                # < 60%
+
+# Risk Aggregation by NIST Family
+# Family-level scores for dashboard visualization
+family_scoring:
+  enabled: true
+  method: weighted_average  # Options: weighted_average, sum, max
+
+# Trend Analysis Settings
+trend_analysis:
+  # Historical lookback period for trends
+  lookback_months: 6
+  # Minimum data points required for trend calculation
+  min_data_points: 3
+  # Velocity calculation (controls fixed per month)
+  velocity_enabled: true
+  # Projection parameters
+  projection:
+    enabled: true
+    months_ahead: 3
+    method: linear         # Options: linear, moving_average
+
+# Alert Thresholds
+# Used for notifications and highlighting in dashboard
+alerts:
+  high_risk_threshold: 50.0      # Individual control risk score
+  critical_failures_threshold: 5  # Count of failed critical controls
+  overdue_days_warning: 30        # Days past due for warning
+  overdue_days_critical: 90       # Days past due for critical alert
+  compliance_drop_threshold: 5.0  # Percentage point drop to alert
+
+# Weights Configuration Version
+# Increment when making breaking changes to formulas
+config_version: "1.0"
+last_updated: "2024-11-03"

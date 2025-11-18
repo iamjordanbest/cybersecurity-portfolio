@@ -1,0 +1,166 @@
+# ROI Calculation Parameters
+# Financial impact modeling for compliance gaps and remediation
+
+# Cost Models
+cost_models:
+  # Remediation Costs (USD)
+  # Based on average hourly rates and effort estimates
+  remediation:
+    hourly_rate: 150          # Average cybersecurity consultant rate
+    effort_hours:
+      low: 20                 # Low complexity fixes
+      medium: 80              # Medium complexity fixes
+      high: 200               # High complexity fixes (includes testing, documentation)
+    
+  # Audit Finding Costs
+  # Penalties and remediation costs for external audit findings
+  audit_findings:
+    critical: 50000           # Average cost per critical finding
+    high: 25000               # Average cost per high finding
+    medium: 10000             # Average cost per medium finding
+    low: 2000                 # Average cost per low finding
+    info: 500                 # Administrative cost for info findings
+
+  # Breach Probability Factors
+  # Likelihood of breach based on control failures
+  breach_probability:
+    # Base annual probability (industry average)
+    base_probability: 0.27    # 27% chance of breach per year (IBM 2023)
+    
+    # Multipliers based on control family failures
+    family_multipliers:
+      AC: 2.5                 # Access Control failures greatly increase risk
+      AU: 1.5                 # Audit failures reduce detection capability
+      IA: 2.0                 # Identity failures enable unauthorized access
+      SC: 2.2                 # System protection failures expose data
+      SI: 2.0                 # Integrity failures allow malware/tampering
+      CM: 1.3                 # Configuration issues create vulnerabilities
+      CP: 1.2                 # Contingency gaps increase recovery costs
+      IR: 1.4                 # Incident response gaps extend dwell time
+      RA: 1.1                 # Risk assessment gaps lead to blind spots
+      
+  # Breach Impact Costs
+  # Average costs of a data breach (IBM Cost of Data Breach Report 2023)
+  breach_costs:
+    base_cost: 4450000        # Average total cost of a breach (USD)
+    per_record: 165           # Average cost per compromised record
+    
+    # Cost components
+    components:
+      detection: 0.27         # 27% of total cost
+      notification: 0.08      # 8% of total cost
+      lost_business: 0.38     # 38% of total cost (largest component)
+      response: 0.27          # 27% of total cost
+      
+    # Industry-specific multipliers
+    industry_multipliers:
+      healthcare: 1.98        # Healthcare pays the most
+      financial: 1.17         # Financial services above average
+      technology: 1.08        # Technology slightly above average
+      retail: 0.75            # Retail below average
+      manufacturing: 0.98     # Manufacturing near average
+      education: 0.76         # Education below average
+      public_sector: 0.47     # Public sector lowest costs
+
+  # Regulatory Penalties
+  # Average fines for compliance violations
+  regulatory_fines:
+    # Per-control violation estimates
+    gdpr_violation: 20000     # GDPR per-violation average
+    hipaa_violation: 50000    # HIPAA per-violation average
+    pci_dss_violation: 10000  # PCI-DSS per-violation average
+    sox_violation: 100000     # SOX per-violation average
+    
+# ROI Calculation Formula
+# ROI = (Risk Reduction Value - Remediation Cost) / Remediation Cost × 100
+
+roi_calculation:
+  # Risk Reduction Value Calculation
+  risk_reduction:
+    method: risk_adjusted_loss_expectancy  # RALE method
+    
+    # RALE = (Probability_Before - Probability_After) × Breach_Cost
+    formula: |
+      risk_reduction_value = (
+        (breach_probability_before - breach_probability_after) × 
+        expected_breach_cost
+      )
+    
+  # Time Value of Money
+  discount_rate: 0.05         # 5% annual discount rate
+  analysis_period_years: 3    # ROI calculated over 3-year period
+  
+  # Benefit Multipliers
+  benefits:
+    audit_readiness: 1.2      # 20% additional value for audit preparedness
+    insurance_discount: 0.95  # 5% reduction in cyber insurance premiums
+    reputation_factor: 1.1    # 10% additional value for brand protection
+    
+# Business Impact Valuation
+business_impact:
+  # Asset valuation factors
+  asset_criticality:
+    critical: 1000000         # Critical assets (customer data, IP, financials)
+    high: 500000              # High-value assets
+    medium: 100000            # Medium-value assets
+    low: 25000                # Low-value assets
+    
+  # Downtime costs
+  downtime:
+    cost_per_hour:
+      critical: 10000         # Critical system downtime cost
+      high: 5000              # High-priority system downtime
+      medium: 1000            # Medium-priority system downtime
+      low: 250                # Low-priority system downtime
+      
+  # Recovery Time Objectives (hours)
+  rto:
+    critical: 4               # 4 hours for critical systems
+    high: 24                  # 24 hours for high-priority
+    medium: 72                # 72 hours for medium-priority
+    low: 168                  # 1 week for low-priority
+
+# Scenario Modeling
+scenarios:
+  # Optimistic scenario (best case)
+  optimistic:
+    remediation_efficiency: 1.2   # 20% better than estimate
+    breach_probability_reduction: 0.8  # 80% risk reduction
+    
+  # Realistic scenario (expected case)
+  realistic:
+    remediation_efficiency: 1.0   # On target
+    breach_probability_reduction: 0.6  # 60% risk reduction
+    
+  # Pessimistic scenario (worst case)
+  pessimistic:
+    remediation_efficiency: 0.7   # 30% worse than estimate
+    breach_probability_reduction: 0.3  # 30% risk reduction
+
+# Reporting
+reporting:
+  # Currency formatting
+  currency: USD
+  decimal_places: 2
+  
+  # Metrics to include in ROI reports
+  metrics:
+    - net_roi_percentage
+    - net_present_value
+    - payback_period_months
+    - risk_reduction_value
+    - total_remediation_cost
+    - breach_probability_before
+    - breach_probability_after
+    - expected_annual_loss_before
+    - expected_annual_loss_after
+
+# Configuration Version
+config_version: "1.0"
+last_updated: "2024-11-03"
+notes: |
+  Cost data based on:
+  - IBM Cost of Data Breach Report 2023
+  - Ponemon Institute studies
+  - Industry average remediation costs
+  - Regulatory penalty averages

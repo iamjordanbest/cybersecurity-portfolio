@@ -1,0 +1,6 @@
+''' looking to grab cybersecurity data and perform analysis on it for anomlies trends and other useful information '''
+''grab data ''
+'' connect data to vs code ''
+'' look and analzye code for possible trends and useful data''
+'' connect data to grafana''
+''work on display''

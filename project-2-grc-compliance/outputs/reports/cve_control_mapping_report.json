@@ -1,0 +1,121 @@
+{
+  "statistics": {
+    "total_cves_mapped": 1460,
+    "total_controls_mapped": 16,
+    "total_mappings": 10498
+  },
+  "top_mapped_controls": [
+    {
+      "control_id": "IR-4",
+      "title": "Incident Handling",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "IR-5",
+      "title": "Incident Monitoring",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "IR-6",
+      "title": "Incident Reporting",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "RA-5",
+      "title": "Vulnerability Monitoring and Scanning",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "SI-2",
+      "title": "Flaw Remediation",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "SI-4",
+      "title": "System Monitoring",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "SI-5",
+      "title": "Security Alerts, Advisories, and Directives",
+      "mapping_count": 1460
+    },
+    {
+      "control_id": "IA-2",
+      "title": "Identification and Authentication (Organizational Users)",
+      "mapping_count": 80
+    },
+    {
+      "control_id": "IA-5",
+      "title": "Authenticator Management",
+      "mapping_count": 80
+    },
+    {
+      "control_id": "AU-2",
+      "title": "Event Logging",
+      "mapping_count": 30
+    }
+  ],
+  "high_risk_controls": [
+    {
+      "control_id": "IR-4",
+      "title": "Incident Handling",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "IR-5",
+      "title": "Incident Monitoring",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "IR-6",
+      "title": "Incident Reporting",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "RA-5",
+      "title": "Vulnerability Monitoring and Scanning",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "SI-2",
+      "title": "Flaw Remediation",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "SI-4",
+      "title": "System Monitoring",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "SI-5",
+      "title": "Security Alerts, Advisories, and Directives",
+      "critical_cves": 1460,
+      "high_cves": 0
+    },
+    {
+      "control_id": "IA-2",
+      "title": "Identification and Authentication (Organizational Users)",
+      "critical_cves": 80,
+      "high_cves": 0
+    },
+    {
+      "control_id": "IA-5",
+      "title": "Authenticator Management",
+      "critical_cves": 80,
+      "high_cves": 0
+    },
+    {
+      "control_id": "AU-2",
+      "title": "Event Logging",
+      "critical_cves": 30,
+      "high_cves": 0
+    }
+  ]
+}
