@@ -33,7 +33,8 @@ class ThreatDataPreprocessor:
         Returns:
             DataFrame with loaded data
         """
-        filepath = "C:/Users/19738/Desktop/cybersecurity-portfolio\project-1-python-monitoring\data\raw_data.csv"
+        # Normalize path to handle different OS
+        filepath = os.path.normpath(filepath)
         df = pd.read_csv(filepath)
         print(f"Data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
         return df
@@ -58,7 +59,7 @@ class ThreatDataPreprocessor:
         
     def handle_missing_values(self, df):
         """
-        Handle missing values in the dataset
+        Handle missing values and infinite values in the dataset
         
         Args:
             df: Input DataFrame
@@ -66,16 +67,19 @@ class ThreatDataPreprocessor:
         Returns:
             DataFrame with missing values handled
         """
-        print("\n=== Handling Missing Values ===")
+        print("\n=== Handling Missing Values and Infinite Values ===")
+        
+        df_clean = df.copy()
+        
+        # Replace infinite values with NaN first
+        df_clean.replace([np.inf, -np.inf], np.nan, inplace=True)
         
         # Identify columns with missing values
-        missing_cols = df.columns[df.isnull().any()].tolist()
+        missing_cols = df_clean.columns[df_clean.isnull().any()].tolist()
         
         if not missing_cols:
             print("No missing values found.")
-            return df
-        
-        df_clean = df.copy()
+            return df_clean
         
         for col in missing_cols:
             missing_pct = (df_clean[col].isnull().sum() / len(df_clean)) * 100
@@ -175,6 +179,16 @@ class ThreatDataPreprocessor:
         
         # Only scale columns that exist in dataframe
         cols_to_scale = [col for col in self.numerical_columns if col in df_scaled.columns]
+        
+        # Replace any remaining infinite values with NaN, then fill with median
+        print("Checking for infinite values before scaling...")
+        for col in cols_to_scale:
+            inf_count = np.isinf(df_scaled[col]).sum()
+            if inf_count > 0:
+                print(f"  {col}: {inf_count} infinite values found, replacing with median")
+                df_scaled[col].replace([np.inf, -np.inf], np.nan, inplace=True)
+                median_val = df_scaled[col].median()
+                df_scaled[col].fillna(median_val, inplace=True)
         
         if fit:
             self.scaler = RobustScaler()
