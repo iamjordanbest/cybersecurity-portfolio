@@ -43,16 +43,21 @@ class ThreatDataPreprocessor:
             print("No missing values found.")
             return df_clean
         
+        cols_to_drop = []
         for col in missing_cols:
             missing_pct = (df_clean[col].isnull().sum() / len(df_clean)) * 100
             if missing_pct > 50:
                 print(f"Dropping {col} (>50% missing)")
-                df_clean = df_clean.drop(columns=[col])
+                cols_to_drop.append(col)
             elif df_clean[col].dtype in ['int64', 'float64']:
                 df_clean[col].fillna(df_clean[col].median(), inplace=True)
             else:
                 mode_val = df_clean[col].mode()[0] if not df_clean[col].mode().empty else 'Unknown'
                 df_clean[col].fillna(mode_val, inplace=True)
+        
+        # Drop all columns at once for better performance
+        if cols_to_drop:
+            df_clean.drop(columns=cols_to_drop, inplace=True)
         
         return df_clean
     
@@ -77,8 +82,10 @@ class ThreatDataPreprocessor:
             else:
                 le = self.label_encoders.get(col)
                 if le:
+                    # Create a mapping dict for better performance
+                    mapping = {cls: idx for idx, cls in enumerate(le.classes_)}
                     df_encoded[col] = df_encoded[col].astype(str).map(
-                        lambda x: le.transform([x])[0] if x in le.classes_ else -1
+                        lambda x: mapping.get(x, -1)
                     )
         return df_encoded
     
@@ -88,11 +95,15 @@ class ThreatDataPreprocessor:
             return df_scaled
             
         cols_to_scale = [col for col in self.numerical_columns if col in df_scaled.columns]
+        if not cols_to_scale:
+            return df_scaled
         
-        # Handle infinite values before scaling
-        for col in cols_to_scale:
-            df_scaled[col].replace([np.inf, -np.inf], np.nan, inplace=True)
-            df_scaled[col].fillna(df_scaled[col].median(), inplace=True)
+        # Handle infinite values before scaling - vectorized operation
+        df_scaled[cols_to_scale] = df_scaled[cols_to_scale].replace([np.inf, -np.inf], np.nan)
+        
+        # Fill NaN with median values - more efficient
+        medians = df_scaled[cols_to_scale].median()
+        df_scaled[cols_to_scale] = df_scaled[cols_to_scale].fillna(medians)
             
         if fit:
             self.scaler = RobustScaler()
@@ -163,19 +174,19 @@ class ThreatDataPreprocessor:
             if col not in df.columns:
                 df[col] = 0
                 
-        # Encode
+        # Encode categorical columns
         for col in self.categorical_columns:
             if col in df.columns:
                 le = self.label_encoders.get(col)
                 if le:
-                    df[col] = df[col].astype(str).map(
-                        lambda x: le.transform([x])[0] if x in le.classes_ else -1
-                    )
+                    # Create mapping dict for better performance
+                    mapping = {cls: idx for idx, cls in enumerate(le.classes_)}
+                    df[col] = df[col].astype(str).map(lambda x: mapping.get(x, -1))
         
-        # Scale
+        # Scale numerical columns
         cols_to_scale = [col for col in self.numerical_columns if col in df.columns]
         if cols_to_scale and self.scaler:
-             df[cols_to_scale] = self.scaler.transform(df[cols_to_scale])
+            df[cols_to_scale] = self.scaler.transform(df[cols_to_scale])
              
         return df[self.feature_columns]
 
