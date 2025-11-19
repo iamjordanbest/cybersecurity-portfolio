@@ -42,8 +42,33 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ---
 
-### 2. 🔍 Threat Hunting & Analysis
-**Status:** 🚧 In Progress
+### 2. 🛡️ [GRC Compliance Analytics Platform](./project-2-grc-compliance)
+
+**Status:** ✅ Complete | **Tech Stack:** Python, SQLite, Streamlit, Plotly, FastAPI
+
+A production-ready GRC (Governance, Risk, and Compliance) analytics platform that ingests multiple compliance frameworks, calculates risk scores, and generates executive dashboards.
+
+**🎯 Key Achievements:**
+- ✅ **Multi-Framework Support** - NIST 800-53, ISO27001, CIS, SOC2, PCI-DSS, MITRE ATT&CK
+- ✅ **Risk Scoring Engine** - Advanced multi-factor risk calculation
+- ✅ **Real-time Dashboard** - Interactive Streamlit dashboard with caching
+- ✅ **Threat Intelligence** - Integration with CISA KEV and MITRE ATT&CK
+- ✅ **ROI Calculator** - Financial impact analysis using RALE methodology
+- ✅ **Database Optimization** - Connection pooling and query optimization
+
+**📊 Highlights:**
+- Cross-framework control mapping and unified analytics
+- Compliance trend analysis with velocity tracking
+- Executive-ready reports and visualizations
+- RESTful API for programmatic access
+- Comprehensive test coverage (75%+)
+
+**🔗 [View Project →](./project-2-grc-compliance)**
+
+---
+
+### 3. 🔍 Threat Hunting & Analysis
+**Status:** 🚧 Planned
 
 *Coming Soon: Advanced threat hunting techniques and SIEM analysis*
 
@@ -51,8 +76,8 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ---
 
-### 3. 🔐 Vulnerability Management System
-**Status:** 🚧 In Progress
+### 4. 🔐 Vulnerability Management System
+**Status:** 🚧 Planned
 
 *Coming Soon: Automated vulnerability scanning and remediation tracking*
 
@@ -60,21 +85,12 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ---
 
-### 4. 🤖 Security Scripting & Automation
-**Status:** 🚧 In Progress
+### 5. ☁️ Cloud Security & Automation
+**Status:** 🚧 Planned
 
-*Coming Soon: Python scripts for security automation and incident response*
+*Coming Soon: Cloud security posture management and automation scripts*
 
-**🔗 [View Project →](./project-4-scripting-automation)**
-
----
-
-### 5. ☁️ Cloud ML Decision System
-**Status:** 🚧 In Progress
-
-*Coming Soon: Cloud-based ML system for security decision making*
-
-**🔗 [View Project →](./project-5-cloud-ml-decision-system)**
+**🔗 [View Project →](./project-3-cloud-security)**
 
 ---
 
@@ -91,9 +107,11 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 ![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 
-### Visualization & Monitoring
+### Visualization & Dashboards
 ![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge)
 ![Seaborn](https://img.shields.io/badge/Seaborn-3776AB?style=for-the-badge)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
+![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
 
 ### Tools & Technologies
@@ -107,11 +125,13 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 | Metric | Value |
 |--------|-------|
-| **Completed Projects** | 1 / 5 |
-| **Lines of Code** | 2,000+ |
-| **Documentation Pages** | 10+ |
-| **Model Accuracy** | 99.99% |
+| **Completed Projects** | 2 / 5 |
+| **Lines of Code** | 4,000+ |
+| **Documentation Pages** | 15+ |
+| **ML Model Accuracy** | 99.99% |
 | **Datasets Analyzed** | 225K+ samples |
+| **Frameworks Supported** | 6+ (NIST, ISO, CIS, etc.) |
+| **Code Quality** | A-/B+ Average |
 
 ---
 
