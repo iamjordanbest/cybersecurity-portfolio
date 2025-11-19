@@ -576,13 +576,227 @@ def main():
     logger.info("GRC Analytics Platform - Mock Compliance Data Generator")
     logger.info("=" * 70)
     
-    if not db_file.exists():
-        logger.error(f"Database not found: {db_file}")
-        logger.error("Please run the database initialization script first.")
-        sys.exit(1)
+    # Initialize database if it doesn't exist
+    db_exists = db_file.exists()
     
-    # Connect to database
+    # Connect to database (creates it if not exists)
     conn = get_db_connection(str(db_file))
+    
+    if not db_exists:
+        logger.info("Database not found. Initializing schema...")
+        
+        # Embedded schema to avoid external file dependency
+        schema_sql = """
+-- Enhanced GRC Analytics Platform Database Schema (SQLite Compatible)
+-- Includes real threat intelligence integration
+
+-- ============================================================================
+-- Core NIST 800-53 Controls (from OSCAL)
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS nist_controls (
+    control_id VARCHAR(20) PRIMARY KEY,
+    control_family VARCHAR(50) NOT NULL,
+    control_name VARCHAR(255) NOT NULL,
+    control_description TEXT,
+    baseline_low BOOLEAN DEFAULT 0,
+    baseline_moderate BOOLEAN DEFAULT 0,
+    baseline_high BOOLEAN DEFAULT 0,
+    control_enhancements TEXT,  -- JSON array stored as text
+    related_controls TEXT,  -- JSON array stored as text
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================================
+-- CISA Known Exploited Vulnerabilities
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS cisa_kev (
+    cve_id VARCHAR(20) PRIMARY KEY,
+    vendor_project VARCHAR(255),
+    product VARCHAR(255),
+    vulnerability_name VARCHAR(500),
+    short_description TEXT,
+    required_action TEXT,
+    known_ransomware_use BOOLEAN DEFAULT 0,
+    date_added DATE NOT NULL,
+    due_date DATE NOT NULL,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================================
+-- NIST NVD Vulnerabilities
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS nvd_vulnerabilities (
+    cve_id VARCHAR(20) PRIMARY KEY,
+    published_date TIMESTAMP,
+    last_modified_date TIMESTAMP,
+    description TEXT,
+    cvss_v3_score DECIMAL(3,1),
+    cvss_v3_severity VARCHAR(20),
+    cvss_v2_score DECIMAL(3,1),
+    cvss_v2_severity VARCHAR(20),
+    cwe_ids TEXT,  -- JSON array stored as text
+    cpe_names TEXT,  -- JSON array stored as text
+    reference_urls TEXT,  -- JSON array stored as text
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================================
+-- MITRE ATT&CK Techniques
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS mitre_attack_techniques (
+    technique_id VARCHAR(20) PRIMARY KEY,
+    technique_name VARCHAR(255) NOT NULL,
+    tactic VARCHAR(100),
+    description TEXT,
+    platforms TEXT,  -- JSON array stored as text
+    detection TEXT,
+    mitigation_ids TEXT,  -- JSON array stored as text
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================================
+-- CVE to NIST Control Mapping
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS cve_control_mapping (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    cve_id VARCHAR(20) NOT NULL,
+    control_id VARCHAR(20) NOT NULL,
+    mapping_type VARCHAR(50), -- 'primary', 'secondary', 'related'
+    confidence_score DECIMAL(3,2), -- 0.0 to 1.0
+    mapping_source VARCHAR(100), -- 'automated', 'manual', 'ml_model'
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cve_id) REFERENCES cisa_kev(cve_id) ON DELETE CASCADE,
+    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE,
+    UNIQUE(cve_id, control_id)
+);
+
+-- ============================================================================
+-- MITRE ATT&CK to NIST Control Mapping
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS attack_control_mapping (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    technique_id VARCHAR(20) NOT NULL,
+    control_id VARCHAR(20) NOT NULL,
+    effectiveness VARCHAR(20), -- 'high', 'medium', 'low'
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (technique_id) REFERENCES mitre_attack_techniques(technique_id) ON DELETE CASCADE,
+    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE,
+    UNIQUE(technique_id, control_id)
+);
+
+-- ============================================================================
+-- Compliance Assessment Data
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS compliance_assessments (
+    assessment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    control_id VARCHAR(20) NOT NULL,
+    assessment_date DATE NOT NULL,
+    compliance_status VARCHAR(20) NOT NULL, -- 'compliant', 'partial', 'non_compliant', 'not_assessed'
+    implementation_status VARCHAR(20), -- 'implemented', 'planned', 'alternative'
+    risk_rating VARCHAR(20), -- 'critical', 'high', 'medium', 'low'
+    assessor VARCHAR(255),
+    evidence_provided BOOLEAN DEFAULT 0,
+    remediation_plan TEXT,
+    target_date DATE,
+    actual_date DATE,
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE
+);
+
+-- ============================================================================
+-- Control Risk Scores
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS control_risk_scores (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    control_id VARCHAR(20) NOT NULL,
+    calculation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    base_risk_score DECIMAL(5,2), -- Base risk without threat intel
+    threat_adjusted_score DECIMAL(5,2), -- Adjusted with KEV/ATT&CK data
+    kev_cve_count INTEGER DEFAULT 0, -- Number of KEV CVEs this control protects against
+    attack_technique_count INTEGER DEFAULT 0, -- Number of ATT&CK techniques mitigated
+    overdue_kev_count INTEGER DEFAULT 0, -- KEV CVEs past due date
+    ransomware_related_count INTEGER DEFAULT 0, -- KEV CVEs with known ransomware use
+    priority_score DECIMAL(5,2), -- Final prioritization score
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE
+);
+
+-- ============================================================================
+-- Remediation Tracking
+-- ============================================================================
+
+CREATE TABLE IF NOT EXISTS remediation_actions (
+    action_id INTEGER PRIMARY KEY AUTOINCREMENT,
+    control_id VARCHAR(20) NOT NULL,
+    cve_id VARCHAR(20),
+    action_type VARCHAR(50), -- 'patch', 'config_change', 'compensating_control', etc.
+    description TEXT NOT NULL,
+    priority VARCHAR(20), -- 'critical', 'high', 'medium', 'low'
+    assigned_to VARCHAR(255),
+    status VARCHAR(20), -- 'open', 'in_progress', 'completed', 'deferred'
+    due_date DATE,
+    completed_date DATE,
+    estimated_cost DECIMAL(10,2),
+    actual_cost DECIMAL(10,2),
+    notes TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE,
+    FOREIGN KEY (cve_id) REFERENCES cisa_kev(cve_id) ON DELETE SET NULL
+);
+"""
+            
+        try:
+            conn.executescript(schema_sql)
+            logger.info("Schema initialized successfully.")
+        except sqlite3.Error as e:
+            logger.error(f"Error initializing schema: {e}")
+            sys.exit(1)
+            
+    # Check if controls exist, if not, seed them
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) as count FROM nist_controls")
+    if cursor.fetchone()['count'] == 0:
+        logger.info("Seeding NIST controls...")
+        # Seed some sample controls for the demo
+        families = [
+            ('AC', 'Access Control'), ('AU', 'Audit and Accountability'), 
+            ('IA', 'Identification and Authentication'), ('SC', 'System and Communications Protection'),
+            ('SI', 'System and Information Integrity'), ('CM', 'Configuration Management'),
+            ('CP', 'Contingency Planning'), ('IR', 'Incident Response')
+        ]
+        
+        controls_to_insert = []
+        for fam_id, fam_name in families:
+            for i in range(1, 6):
+                controls_to_insert.append((
+                    f"{fam_id}-{i}", fam_name, f"{fam_name} Control {i}", 
+                    f"Description for {fam_name} Control {i}"
+                ))
+                
+        cursor.executemany('''
+            INSERT INTO nist_controls (control_id, control_family, control_name, control_description)
+            VALUES (?, ?, ?, ?)
+        ''', controls_to_insert)
+        conn.commit()
+        logger.info(f"Seeded {len(controls_to_insert)} controls.")
     
     try:
         # Get controls

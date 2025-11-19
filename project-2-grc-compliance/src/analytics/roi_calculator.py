@@ -71,16 +71,20 @@ class ROICalculator:
         base_prob = self.cost_models['breach_probability']['base_probability']
         family_multipliers = self.cost_models['breach_probability']['family_multipliers']
         
-        # Apply multipliers for failed control families
-        total_multiplier = 1.0
+        # Apply additive model for control failures
+        # Each control failure adds a percentage increase to breach probability
+        # This ensures every single control has a measurable impact
+        total_increase = 0.0
         for family, failure_count in control_failures.items():
             if failure_count > 0 and family in family_multipliers:
-                # Each failure increases risk
                 multiplier = family_multipliers[family]
-                total_multiplier *= (1 + (multiplier - 1) * min(failure_count / 10, 1.0))
+                # Each control adds (multiplier - 1) / 20 to the probability
+                # This makes each control worth approximately 2.5-7.5% of base probability
+                per_control_increase = (multiplier - 1) * base_prob / 20
+                total_increase += per_control_increase * failure_count
         
         # Calculate adjusted probability
-        adjusted_prob = base_prob * total_multiplier
+        adjusted_prob = base_prob + total_increase
         
         return min(adjusted_prob, 1.0)  # Cap at 100%
     
@@ -258,10 +262,20 @@ class ROICalculator:
         
         current_failures = cursor.fetchone()['failure_count']
         
+        # If current_failures is 0, there's no risk to reduce
+        if current_failures == 0:
+            return {
+                'control_id': control_id,
+                'control_name': control['control_name'],
+                'status': 'no_failures',
+                'roi': 0,
+                'message': 'No failures in this control family'
+            }
+        
         control_failures_before = {family_abbrev: current_failures}
         prob_before = self.calculate_breach_probability(control_failures_before)
         
-        # Calculate breach probability after (one fewer failure)
+        # Calculate breach probability after (one fewer failure - fixing this control)
         control_failures_after = {family_abbrev: max(0, current_failures - 1)}
         prob_after = self.calculate_breach_probability(control_failures_after)
         

@@ -30,11 +30,13 @@ class DatabaseConnection:
             db_path: Path to SQLite database file. If None, uses default path.
         """
         if db_path is None:
-            # Default to data directory in project root
-            project_root = Path(__file__).parent.parent.parent
-            db_dir = project_root / 'data' / 'processed'
-            db_dir.mkdir(parents=True, exist_ok=True)
-            db_path = str(db_dir / 'grc_analytics.db')
+            from src.config import settings
+            # Remove sqlite:/// prefix if present as sqlite3.connect expects a file path
+            db_url = settings.DATABASE_URL
+            if db_url.startswith("sqlite:///"):
+                db_path = db_url.replace("sqlite:///", "")
+            else:
+                db_path = db_url
         
         self.db_path = db_path
         self.connection: Optional[sqlite3.Connection] = None
