@@ -11,7 +11,7 @@ def main():
     project_root = Path(__file__).parent.absolute()
     
     print("="*50)
-    print("🛡️  Project 2: GRC Compliance Dashboard")
+    print("Project 2: GRC Compliance Dashboard")
     print("="*50)
     
     # 1. Generate Mock Data
@@ -23,9 +23,9 @@ def main():
         
     try:
         subprocess.run([sys.executable, str(data_script)], check=True)
-        print("✅ Data generation complete.")
+        print("Data generation complete.")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Data generation failed: {e}")
+        print(f"Data generation failed: {e}")
         return
 
     # 2. Launch Dashboard
@@ -43,11 +43,11 @@ def main():
     env["PYTHONPATH"] = str(project_root / "src") + os.pathsep + env.get("PYTHONPATH", "")
     
     try:
-        subprocess.run(["streamlit", "run", str(dashboard_script)], env=env, check=True)
+        subprocess.run([sys.executable, "-m", "streamlit", "run", str(dashboard_script)], env=env, check=True)
     except KeyboardInterrupt:
         print("\nDashboard stopped by user.")
     except subprocess.CalledProcessError as e:
-        print(f"❌ Dashboard failed: {e}")
+        print(f"Dashboard failed: {e}")
 
 if __name__ == "__main__":
     main()

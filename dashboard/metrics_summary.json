@@ -1,0 +1,103 @@
+{
+    "timestamp": "2025-11-19T22:14:33.862536",
+    "model_performance": {
+        "accuracy": 0.9998879501602312,
+        "precision": 0.9999609390258193,
+        "recall": 0.9998437744102484,
+        "f1_score": 0.9999023532858119,
+        "roc_auc": 0.9999938188255802
+    },
+    "error_analysis": {
+        "false_positives": 1,
+        "false_negatives": 4,
+        "total_errors": 5
+    },
+    "top_features": [
+        {
+            "feature": " Destination Port",
+            "importance": 179.0
+        },
+        {
+            "feature": "Init_Win_bytes_forward",
+            "importance": 126.0
+        },
+        {
+            "feature": " Init_Win_bytes_backward",
+            "importance": 113.0
+        },
+        {
+            "feature": "Total Length of Fwd Packets",
+            "importance": 93.0
+        },
+        {
+            "feature": " Bwd Header Length",
+            "importance": 67.0
+        },
+        {
+            "feature": " Fwd IAT Min",
+            "importance": 59.0
+        },
+        {
+            "feature": " Fwd Packet Length Mean",
+            "importance": 55.0
+        },
+        {
+            "feature": "Fwd Packets/s",
+            "importance": 55.0
+        },
+        {
+            "feature": "FIN Flag Count",
+            "importance": 54.0
+        },
+        {
+            "feature": " Bwd Packets/s",
+            "importance": 53.0
+        },
+        {
+            "feature": "Flow Bytes/s",
+            "importance": 42.0
+        },
+        {
+            "feature": " Flow Duration",
+            "importance": 41.0
+        },
+        {
+            "feature": " Flow IAT Min",
+            "importance": 41.0
+        },
+        {
+            "feature": "Fwd IAT Total",
+            "importance": 41.0
+        },
+        {
+            "feature": "Bwd IAT Total",
+            "importance": 34.0
+        },
+        {
+            "feature": " Average Packet Size",
+            "importance": 31.0
+        },
+        {
+            "feature": " Fwd Packet Length Max",
+            "importance": 28.0
+        },
+        {
+            "feature": " Flow Packets/s",
+            "importance": 26.0
+        },
+        {
+            "feature": " Flow IAT Std",
+            "importance": 25.0
+        },
+        {
+            "feature": " Fwd Header Length",
+            "importance": 22.0
+        }
+    ],
+    "confusion_matrix": {
+        "true_negatives": 19018,
+        "false_positives": 1,
+        "false_negatives": 4,
+        "true_positives": 25600
+    }
+}

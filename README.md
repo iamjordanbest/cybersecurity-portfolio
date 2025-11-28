@@ -32,11 +32,11 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 **📊 Highlights:**
 - Complete data preprocessing pipeline handling infinite values and missing data
-- XGBoost classifier with optimized hyperparameters
-- Comprehensive error analysis (only 5 errors on 44,623 test samples)
-- Feature importance analysis identifying top threat indicators
-- Grafana dashboard integration for real-time monitoring
-- Production-ready model artifacts
+- XGBoost classifier with optimized hyperparameters (99.99% Accuracy)
+- **Business Impact Analysis**: Quantifies cost of errors for decision support
+- **Domain-Aware Features**: Explains cybersecurity context of threat indicators
+- **Interactive Dashboard**: Real-time sensitivity adjustment and error analysis
+- **Production-Ready API**: FastAPI endpoint for real-time inference
 
 **🔗 [View Project →](./project-1-python-monitoring)**
 

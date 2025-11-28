@@ -758,9 +758,20 @@ CREATE TABLE IF NOT EXISTS remediation_actions (
     notes TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (control_id) REFERENCES nist_controls(control_id) ON DELETE CASCADE,
     FOREIGN KEY (cve_id) REFERENCES cisa_kev(cve_id) ON DELETE SET NULL
 );
+
+-- ============================================================================
+-- Indices for Performance Optimization
+-- ============================================================================
+
+CREATE INDEX IF NOT EXISTS idx_assessments_control_date ON compliance_assessments(control_id, assessment_date);
+CREATE INDEX IF NOT EXISTS idx_assessments_status ON compliance_assessments(compliance_status);
+CREATE INDEX IF NOT EXISTS idx_risk_scores_control ON control_risk_scores(control_id);
+CREATE INDEX IF NOT EXISTS idx_risk_scores_priority ON control_risk_scores(priority_score);
+CREATE INDEX IF NOT EXISTS idx_remediation_control ON remediation_actions(control_id);
+CREATE INDEX IF NOT EXISTS idx_cve_mapping_control ON cve_control_mapping(control_id);
+CREATE INDEX IF NOT EXISTS idx_attack_mapping_control ON attack_control_mapping(control_id);
 """
             
         try:

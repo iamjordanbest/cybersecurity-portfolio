@@ -1,128 +1,104 @@
-"""
-Threat Detection API
-"""
-
-import sys
-import contextlib
+"""FastAPI endpoint for real-time threat predictions."""
+import pickle
 from pathlib import Path
 from typing import Dict, Any
-import pandas as pd
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import pandas as pd
 import uvicorn
 
-# Add src to path to import local modules
-current_dir = Path(__file__).parent
-sys.path.append(str(current_dir))
-
 from preprocess import ThreatDataPreprocessor
-from model import ThreatDetectionModel
 
-# Global variables
-ml_components = {}
+# Load the trained model and preprocessor
+MODEL_PATH = Path(__file__).parent / "threat_detection_model.pkl"
+PREPROCESSOR_PATH = Path(__file__).parent / "preprocessor.pkl"
 
-@contextlib.asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Load ML components on startup."""
-    try:
-        print("Loading ML components...")
-        project_root = Path(__file__).parent.parent
-        
-        # Paths
-        preprocessor_path = project_root / 'src' / 'preprocessor.pkl'
-        model_path = project_root / 'src' / 'threat_detection_model.pkl'
-        
-        # Load Preprocessor
-        if not preprocessor_path.exists():
-            print(f"Warning: Preprocessor not found at {preprocessor_path}")
-        else:
-            preprocessor = ThreatDataPreprocessor()
-            preprocessor.load_preprocessor(str(preprocessor_path))
-            ml_components['preprocessor'] = preprocessor
-            
-        # Load Model
-        if not model_path.exists():
-            print(f"Warning: Model not found at {model_path}")
-        else:
-            model = ThreatDetectionModel()
-            model.load_model(str(model_path))
-            ml_components['model'] = model
-            
-        if 'preprocessor' in ml_components and 'model' in ml_components:
-            print("ML components loaded successfully.")
-        else:
-            print("Warning: Some ML components failed to load.")
-            
-        yield
-    except Exception as e:
-        print(f"Error loading ML components: {e}")
-        yield
-    finally:
-        ml_components.clear()
+try:
+    with open(MODEL_PATH, 'rb') as f:
+        model = pickle.load(f)
+    
+    preprocessor = ThreatDataPreprocessor()
+    preprocessor.load_preprocessor(PREPROCESSOR_PATH)
+    
+    print("✓ Model and preprocessor loaded successfully")
+except FileNotFoundError as e:
+    print(f"Error: Model files not found. Please run training first: python run_project_1.py")
+    raise
 
 app = FastAPI(
     title="DDoS Threat Detection API",
-    description="Real-time threat detection using XGBoost",
-    version="1.0.0",
-    lifespan=lifespan
+    description="Real-time threat prediction using XGBoost",
+    version="1.0.0"
 )
 
 class PredictionRequest(BaseModel):
     features: Dict[str, Any]
-    
-    model_config = {
-        "json_schema_extra": {
-            "examples": [
-                {
-                    "features": {
-                        " Destination Port": 80,
-                        " Flow Duration": 1000000,
-                        " Total Fwd Packets": 10,
-                        " Total Backward Packets": 8
-                    }
-                }
-            ]
-        }
-    }
 
 class PredictionResponse(BaseModel):
     prediction: int
-    threat_probability: float
-    status: str
+    probability: float
+    threat_level: str
 
-@app.get("/health")
-async def health_check():
+@app.get("/")
+def root():
+    """Health check endpoint."""
     return {
-        "status": "healthy", 
-        "model_loaded": "model" in ml_components,
-        "preprocessor_loaded": "preprocessor" in ml_components
+        "status": "online",
+        "model": "XGBoost Threat Detector",
+        "version": "1.0.0"
     }
 
+@app.get("/health")
+def health():
+    """Health check endpoint."""
+    return {"status": "healthy"}
+
 @app.post("/predict", response_model=PredictionResponse)
-async def predict(request: PredictionRequest):
-    if 'model' not in ml_components or 'preprocessor' not in ml_components:
-        raise HTTPException(status_code=503, detail="ML components not fully loaded")
+def predict(request: PredictionRequest):
+    """
+    Predict whether network traffic is a threat.
     
-    try:
-        preprocessor = ml_components['preprocessor']
-        model = ml_components['model']
+    Args:
+        request: Dictionary of feature values
         
-        # Preprocess
-        X_input = preprocessor.transform_single(request.features)
+    Returns:
+        Prediction (0=Normal, 1=Threat), probability, and threat level
+    """
+    try:
+        # Preprocess using the dedicated inference method
+        X_processed = preprocessor.transform_single(request.features)
         
         # Predict
-        prob = model.model.predict_proba(X_input)[0][1]
-        pred = int(prob > 0.5)
+        prediction = int(model.predict(X_processed)[0])
+        probability = float(model.predict_proba(X_processed)[0][1])
+        
+        # Determine threat level
+        if probability < 0.3:
+            threat_level = "Low"
+        elif probability < 0.7:
+            threat_level = "Medium"
+        else:
+            threat_level = "High"
         
         return PredictionResponse(
-            prediction=pred,
-            threat_probability=float(prob),
-            status="THREAT DETECTED" if pred == 1 else "Normal Traffic"
+            prediction=prediction,
+            probability=probability,
+            threat_level=threat_level
         )
         
     except Exception as e:
-        print(f"Prediction error: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+        raise HTTPException(status_code=400, detail=f"Prediction error: {str(e)}")
 
 if __name__ == "__main__":
+    print("\n" + "="*50)
+    print("Starting DDoS Threat Detection API...")
+    print("="*50)
+    print("\n📍 Endpoints:")
+    print("  - http://localhost:8001/")
+    print("  - http://localhost:8001/health")
+    print("  - http://localhost:8001/predict (POST)")
+    print("  - http://localhost:8001/docs (Interactive)")
+    print("\n")
+    
     uvicorn.run(app, host="0.0.0.0", port=8001)

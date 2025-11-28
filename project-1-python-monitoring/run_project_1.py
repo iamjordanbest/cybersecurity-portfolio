@@ -2,6 +2,7 @@ import sys
 import os
 from pathlib import Path
 import argparse
+import pandas as pd
 
 # Add src to path
 sys.path.append(str(Path(__file__).parent / 'src'))
@@ -12,8 +13,9 @@ from src.visualize import ThreatVisualization
 
 def main():
     parser = argparse.ArgumentParser(description="Run Project 1: Python Monitoring Pipeline")
-    parser.add_argument('--data', type=str, default='data/raw_data.csv', help='Path to raw data CSV')
-    parser.add_argument('--target', type=str, default='threat', help='Name of the target column')
+    default_data_path = Path(__file__).parent / 'data' / 'raw_data.csv'
+    parser.add_argument('--data', type=str, default=str(default_data_path), help='Path to raw data CSV')
+    parser.add_argument('--target', type=str, default=' Label', help='Name of the target column')
     args = parser.parse_args()
 
     print("Starting Project 1: Python Monitoring Pipeline...")
@@ -58,7 +60,27 @@ def main():
         print("\n5. Generating Visualizations...")
         viz = ThreatVisualization()
         importance = model.get_feature_importance()
-        viz.create_dashboard_summary(metrics, importance, len(fp), len(fn))
+        
+        # Generate plots
+        dashboard_dir = Path(__file__).parent / 'dashboard'
+        dashboard_dir.mkdir(exist_ok=True)
+        
+        viz.plot_class_distribution(y_train, y_test, save_path=str(dashboard_dir / 'class_distribution.png'), show_plot=False)
+        viz.plot_metrics_comparison(metrics, save_path=str(dashboard_dir / 'metrics_comparison.png'), show_plot=False)
+        
+        # Get predictions for distribution plot
+        y_pred_proba = model.predict_proba(X_test)[:, 1]
+        viz.plot_prediction_distribution(y_test, y_pred_proba, save_path=str(dashboard_dir / 'prediction_distribution.png'), show_plot=False)
+        
+        viz.create_dashboard_summary(metrics, importance, len(fp), len(fn), output_path=str(dashboard_dir / 'metrics_summary.json'))
+        
+        # Save test predictions for interactive dashboard
+        print("Saving test predictions for dashboard...")
+        test_df = pd.DataFrame(X_test, columns=preprocessor.feature_names if hasattr(preprocessor, 'feature_names') else None)
+        test_df['True Label'] = y_test.values if hasattr(y_test, 'values') else y_test
+        test_df['Predicted Probability'] = y_pred_proba
+        test_df['Predicted Label'] = (y_pred_proba > 0.5).astype(int)
+        test_df.to_csv(dashboard_dir / 'test_predictions.csv', index=False)
         
         # 6. Save Artifacts
         print("\n6. Saving Artifacts...")
