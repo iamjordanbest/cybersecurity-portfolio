@@ -131,7 +131,7 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 | **ML Model Accuracy** | 99.99% |
 | **Datasets Analyzed** | 225K+ samples |
 | **Frameworks Supported** | 6+ (NIST, ISO, CIS, etc.) |
-| **Code Quality** | A-/B+ Average |
+
 
 ---
 
@@ -152,15 +152,14 @@ This portfolio represents my continuous learning and growth in cybersecurity and
 I'm always interested in discussing cybersecurity, machine learning, or potential collaboration opportunities!
 
 - 📧 **Email:** iamjordanbest03@gmail.com
-- 💼 **LinkedIn:** [Connect with me](https://www.linkedin.com/in/jordan-best)
-- 🐦 **Twitter/X:** [@iamjordanbest](https://twitter.com/iamjordanbest)
+- 💼 **LinkedIn:** [Connect with me](www.linkedin.com/in/jordan-best-5937b021b)
 - 💻 **GitHub:** [@iamjordanbest](https://github.com/iamjordanbest)
 
 ---
 
 ## 📝 License
 
-This portfolio is open source and available under the [MIT License](LICENSE).
+This portfolio is open source and available to the public for review.
 
 ---
 
@@ -174,7 +173,7 @@ If you find these projects interesting or helpful, please consider:
 ---
 
 <p align="center">
-  <i>Built with 💙 by Jordan Best</i>
+  <i>Built by Jordan Best</i>
 </p>
 
 <p align="center">
