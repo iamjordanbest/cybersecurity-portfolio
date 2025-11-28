@@ -152,7 +152,7 @@ This portfolio represents my continuous learning and growth in cybersecurity and
 I'm always interested in discussing cybersecurity, machine learning, or potential collaboration opportunities!
 
 - 📧 **Email:** iamjordanbest03@gmail.com
-- 💼 **LinkedIn:** [Connect with me](www.linkedin.com/in/jordan-best-5937b021b)
+- 💼 **LinkedIn:** [Connect with me](https://www.linkedin.com/in/jordan-best-5937b021b).
 - 💻 **GitHub:** [@iamjordanbest](https://github.com/iamjordanbest)
 
 ---
