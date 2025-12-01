@@ -67,12 +67,32 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 
 ---
 
-### 3. 🔍 Threat Hunting & Analysis
-**Status:** 🚧 Planned
+### 3. ☁️ [Cloud Security Posture Management (CSMP) Auditor](./project-3-cloud-security)
 
-*Coming Soon: Advanced threat hunting techniques and SIEM analysis*
+**Status:** 🎯 **PRODUCTION READY** | **Tech Stack:** Python, AWS, boto3, SQLite, Tableau, Terraform
 
-**🔗 [View Project →](./project-2-threat-hunting)**
+A production-ready AWS compliance auditor that performs **live security assessments** on real cloud infrastructure. Features 18 CIS AWS Foundation Benchmark controls with automated Tableau dashboard generation.
+
+**🚀 Live Results (Dec 1, 2025):**
+- ✅ **66.7% Compliance Score** - Real AWS audit with actionable findings
+- ✅ **4 Security Findings** - Specific AWS resources requiring attention
+- ✅ **Real Resources Audited** - `sg-0b956aa6b4c402eb1`, `admin-user`, `vpc-0af85f16d6ae66b9a`
+- ✅ **Dashboard Automation** - 10-minute professional BI setup
+
+**🎯 Key Achievements:**
+- ✅ **18 CIS Controls** - IAM, Logging, Storage, Networking, Monitoring
+- ✅ **Live AWS Integration** - Real boto3 API calls with actual resource validation
+- ✅ **Executive Dashboards** - Category performance, trends, remediation priorities
+- ✅ **Compliance Automation** - Complete SQLite → Pandas → Tableau pipeline
+- ✅ **Production Infrastructure** - Terraform deployment with 22 AWS resources
+
+**📊 Business Impact:**
+- **Category Performance**: Storage 100%, IAM 80%, Networking 33%, Monitoring 0%
+- **Improvement Potential**: Historical data shows 93.8% peak capability
+- **Specific Remediation**: AWS resource IDs with step-by-step security fixes
+- **ROI Demonstration**: Immediate business intelligence deployment ready
+
+**🔗 [View Project →](./project-3-cloud-security)**
 
 ---
 
@@ -81,16 +101,16 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 
 *Coming Soon: Automated vulnerability scanning and remediation tracking*
 
-**🔗 [View Project →](./project-3-vulnerability-management)**
+**🔗 [View Project →](./project-4-vulnerability-automation)**
 
 ---
 
-### 5. ☁️ Cloud Security & Automation
+### 5. 🔍 Advanced Threat Hunting
 **Status:** 🚧 Planned
 
-*Coming Soon: Cloud security posture management and automation scripts*
+*Coming Soon: SIEM analysis and advanced threat detection techniques*
 
-**🔗 [View Project →](./project-3-cloud-security)**
+**🔗 [View Project →](./project-5-threat-hunting)**
 
 ---
 
@@ -101,6 +121,11 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 ![Bash](https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white)
 ![PowerShell](https://img.shields.io/badge/PowerShell-5391FE?style=for-the-badge&logo=powershell&logoColor=white)
 
+### Cloud Security & Infrastructure
+![AWS](https://img.shields.io/badge/AWS-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white)
+![Terraform](https://img.shields.io/badge/Terraform-623CE4?style=for-the-badge&logo=terraform&logoColor=white)
+![boto3](https://img.shields.io/badge/boto3-FF9900?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
 ### Machine Learning & Data Science
 ![scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 ![XGBoost](https://img.shields.io/badge/XGBoost-EA3C23?style=for-the-badge)
@@ -108,11 +133,11 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 ![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
 
 ### Visualization & Dashboards
-![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge)
-![Seaborn](https://img.shields.io/badge/Seaborn-3776AB?style=for-the-badge)
-![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
+![Tableau](https://img.shields.io/badge/Tableau-E97627?style=for-the-badge&logo=tableau&logoColor=white)
 ![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)
+![Plotly](https://img.shields.io/badge/Plotly-3F4F75?style=for-the-badge&logo=plotly&logoColor=white)
 ![Grafana](https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=for-the-badge)
 
 ### Tools & Technologies
 ![Jupyter](https://img.shields.io/badge/Jupyter-F37626?style=for-the-badge&logo=jupyter&logoColor=white)
@@ -125,13 +150,14 @@ A production-ready GRC (Governance, Risk, and Compliance) analytics platform tha
 
 | Metric | Value |
 |--------|-------|
-| **Completed Projects** | 2 / 5 |
-| **Lines of Code** | 4,000+ |
-| **Documentation Pages** | 15+ |
+| **Completed Projects** | 3 / 5 |
+| **Lines of Code** | 6,200+ |
+| **Documentation Pages** | 25+ |
 | **ML Model Accuracy** | 99.99% |
 | **Datasets Analyzed** | 225K+ samples |
-| **Frameworks Supported** | 6+ (NIST, ISO, CIS, etc.) |
-| **Code Quality** | A-/B+ Average |
+| **Cloud Resources Audited** | 22 AWS resources |
+| **Compliance Score** | 66.7% (Live AWS) |
+| **Frameworks Supported** | 7+ (NIST, ISO, CIS, etc.) |
 
 ---
 
@@ -141,9 +167,11 @@ This portfolio represents my continuous learning and growth in cybersecurity and
 
 - ✅ **Data Preprocessing** - Handling real-world messy data
 - ✅ **Machine Learning** - XGBoost, classification, evaluation
-- ✅ **Cybersecurity** - Threat detection, network analysis
+- ✅ **Cybersecurity** - Threat detection, network analysis, compliance automation
+- ✅ **Cloud Security** - AWS security assessment, CIS benchmarks, infrastructure auditing
+- ✅ **Business Intelligence** - Tableau automation, executive dashboards, data pipelines
 - ✅ **MLOps** - Model persistence, monitoring, dashboards
-- 🔄 **In Progress** - Threat hunting, automation, cloud security
+- 🔄 **In Progress** - Vulnerability management, advanced threat hunting
 
 ---
 
