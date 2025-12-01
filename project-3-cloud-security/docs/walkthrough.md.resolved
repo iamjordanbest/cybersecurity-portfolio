@@ -1,0 +1,49 @@
+# Week 3 Progress: Data Persistence & Evidence
+
+## ✅ **What's Been Built**
+
+### **1. Database Layer** ([data/database.py](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/data/database.py))
+- **SQLite Database:** `data/cspm.db`
+- **Schema:**
+  - [controls](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/scripts/generate_mock_compliance_data.py#67-86): Static definitions of 20 CIS controls
+  - [assessments](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/scripts/generate_mock_compliance_data.py#203-300): Summary of each audit run (score, pass/fail counts)
+  - `assessment_results`: Detailed findings per control per run
+
+### **2. Data Population**
+- **Initialization:** [scripts/init_db.py](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/scripts/init_db.py) populated the 20 CIS controls
+- **Mock History:** [scripts/generate_history.py](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/scripts/generate_history.py) generated **30 days** of synthetic audit data
+  - Simulates a realistic trend: Starting at ~40% compliance and improving to ~80%
+  - Provides rich data for Tableau time-series charts
+
+### **3. Tableau Integration** ([scripts/tableau_export.py](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/scripts/tableau_export.py))
+- **Export Script:** Automatically queries DB and creates CSVs
+- **Generated Datasets:**
+  1. [tableau/compliance_summary.csv](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/tableau/compliance_summary.csv): High-level metrics per run
+  2. [tableau/control_details.csv](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/tableau/control_details.csv): Deep dive into latest findings
+  3. [tableau/compliance_trends.csv](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-3-cloud-security/tableau/compliance_trends.csv): Daily score aggregation
+
+## 📊 **Data Ready for Visualization**
+
+| Dataset | Rows (Approx) | Key Columns |
+|---------|---------------|-------------|
+| **Compliance Summary** | 31 | `timestamp`, [score](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/scripts/generate_mock_compliance_data.py#302-417), [rating](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/scripts/generate_mock_compliance_data.py#88-101), `passed_controls` |
+| **Control Details** | 20 | `control_id`, [status](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/src/tableau/exporter.py#329-339), [severity](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/src/tableau/exporter.py#217-227), `findings` |
+| **Compliance Trends** | 30 | [date](file:///c:/Users/19738/Desktop/cybersecurity-portfolio/project-2-grc-compliance/scripts/generate_mock_compliance_data.py#184-201), `avg_score`, `max_score` |
+
+## 🎯 **Current Status**
+
+✅ **Database:** Live & Populated
+✅ **History:** 30 Days of Data
+✅ **Exports:** CSVs ready for Tableau
+
+---
+
+## 📋 **Next Steps (Week 4: Tableau & Documentation)**
+
+1. **Connect Tableau Public** to the CSV files in `tableau/` folder
+2. **Build Dashboards:**
+   - **Executive View:** Score gauge, trend line, top risks
+   - **Technical View:** List of failing controls with remediation details
+3. **Finalize Documentation:** Polish README and add architecture diagrams
+
+**You are now ready to open Tableau Public and start building!**

@@ -1,0 +1,92 @@
+{
+  "timestamp": "2025-12-01T05:25:13.984703",
+  "account_id": "307940789526",
+  "summary": {
+    "total_controls": 12,
+    "passed": 8,
+    "failed": 4,
+    "score": 66.67
+  },
+  "results": [
+    {
+      "control_id": "CIS-1.4",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-1.12",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-1.16",
+      "status": "FAIL",
+      "findings": [
+        "Users found with direct policy attachments: admin-user"
+      ],
+      "severity": "Medium"
+    },
+    {
+      "control_id": "CIS-1.14",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-1.12",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-2.1.1",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-2.1.5",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-2.1.2",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-4.1",
+      "status": "PASS",
+      "findings": [],
+      "severity": "None"
+    },
+    {
+      "control_id": "CIS-4.3",
+      "status": "FAIL",
+      "findings": [
+        "Default security groups have active rules: sg-0b956aa6b4c402eb1, sg-0bd7169788a135dcb"
+      ],
+      "severity": "High"
+    },
+    {
+      "control_id": "CIS-2.9",
+      "status": "FAIL",
+      "findings": [
+        "Found VPCs without flow logs: vpc-0af85f16d6ae66b9a"
+      ],
+      "severity": "Medium"
+    },
+    {
+      "control_id": "CIS-4.4",
+      "status": "FAIL",
+      "findings": [
+        "No metric filter found for IAM Policy Changes."
+      ],
+      "severity": "Medium"
+    }
+  ]
+}
