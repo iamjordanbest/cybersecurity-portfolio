@@ -1,0 +1,33 @@
+# AWS credentials
+*.csv
+.aws/
+aws_credentials.txt
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.backup
+terraform/.terraform.lock.hcl
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.env
+
+# Data
+data/*.db
+evidence/*.png
+evidence/*.json
+
+# Tableau generated files
+tableau/*.csv
+tableau/*.json
+tableau/*.twb
+tableau/*.twbx
+tableau/*.twbr
+
+# IDE
+.vscode/
+.idea/
