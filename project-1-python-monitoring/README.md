@@ -120,7 +120,3 @@ This project was built to demonstrate not just coding ability, but **cybersecuri
 ### 3. Production Readiness
 - **Real-Time API**: Includes a fully functional FastAPI endpoint for real-time inference.
 - **Interactive Tooling**: A polished Streamlit dashboard that allows analysts to explore data and adjust sensitivity thresholds dynamically.
-
-## 📝 License
-
-MIT License
