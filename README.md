@@ -1,13 +1,20 @@
 # 🛡️ Cybersecurity Portfolio
 
-**Jordan Best** | Cybersecurity & Machine Learning Enthusiast  
+[![Python](https://img.shields.io/badge/Python-3.9%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![AWS](https://img.shields.io/badge/AWS-Cloud_Security-orange?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com)
+[![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?style=for-the-badge&logo=streamlit&logoColor=white)](https://streamlit.io)
+[![FastAPI](https://img.shields.io/badge/FastAPI-API-green?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Terraform](https://img.shields.io/badge/Terraform-IaC-purple?style=for-the-badge&logo=terraform&logoColor=white)](https://terraform.io)
+[![Machine Learning](https://img.shields.io/badge/ML-XGBoost-yellow?style=for-the-badge&logo=scikit-learn&logoColor=white)](https://xgboost.ai)
+
+**Jordan Best** | Cybersecurity & Machine Learning Specialist  
 📧 iamjordanbest03@gmail.com | 🔗 [GitHub](https://github.com/iamjordanbest)
 
 ---
 
 ## 👋 About Me
 
-Welcome to my cybersecurity portfolio! I'm passionate about leveraging machine learning and data science to solve real-world security challenges. This repository showcases my projects in threat detection, vulnerability management, and security automation.
+Welcome to my cybersecurity portfolio! I specialize in production-ready security solutions combining machine learning, cloud security, and automation. This repository demonstrates real-world implementations with live AWS infrastructure, advanced ML models, and comprehensive analytics platforms.
 
 ---
 
@@ -42,32 +49,7 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ---
 
-### 2. 🛡️ [GRC Compliance Analytics Platform](./project-2-grc-compliance)
-
-**Status:** ✅ Complete | **Tech Stack:** Python, SQLite, Streamlit, Plotly, FastAPI
-
-A production-ready GRC (Governance, Risk, and Compliance) analytics platform that ingests multiple compliance frameworks, calculates risk scores, and generates executive dashboards.
-
-**🎯 Key Achievements:**
-- ✅ **Multi-Framework Support** - NIST 800-53, ISO27001, CIS, SOC2, PCI-DSS, MITRE ATT&CK
-- ✅ **Risk Scoring Engine** - Advanced multi-factor risk calculation
-- ✅ **Real-time Dashboard** - Interactive Streamlit dashboard with caching
-- ✅ **Threat Intelligence** - Integration with CISA KEV and MITRE ATT&CK
-- ✅ **ROI Calculator** - Financial impact analysis using RALE methodology
-- ✅ **Database Optimization** - Connection pooling and query optimization
-
-**📊 Highlights:**
-- Cross-framework control mapping and unified analytics
-- Compliance trend analysis with velocity tracking
-- Executive-ready reports and visualizations
-- RESTful API for programmatic access
-- Comprehensive test coverage (75%+)
-
-**🔗 [View Project →](./project-2-grc-compliance)**
-
----
-
-### 3. ☁️ [Cloud Security Posture Management (CSMP) Auditor](./project-3-cloud-security)
+### 2. ☁️ [Cloud Security Posture Management (CSPM) Auditor](./project-3-cloud-security)
 
 **Status:** 🎯 **PRODUCTION READY** | **Tech Stack:** Python, AWS, boto3, SQLite, Tableau, Terraform
 
@@ -96,21 +78,19 @@ A production-ready AWS compliance auditor that performs **live security assessme
 
 ---
 
-### 4. 🔐 Vulnerability Management System
-**Status:** 🚧 Planned
+### 3. 🔧 [Vulnerability Automation System](./project-4-vulnerability-automation)
 
-*Coming Soon: Automated vulnerability scanning and remediation tracking*
+**Status:** 🚧 In Development | **Tech Stack:** Python, Security APIs, Automation
+
+An automated vulnerability management system that streamlines vulnerability assessment, prioritization, and remediation workflows.
+
+**🎯 Planned Features:**
+- 🔄 **Automated Scanning** - Integration with vulnerability scanners
+- 📊 **Risk Prioritization** - CVSS-based severity scoring with business context
+- 📋 **Remediation Tracking** - Workflow automation and progress monitoring
+- 📈 **Analytics Dashboard** - Trend analysis and compliance reporting
 
 **🔗 [View Project →](./project-4-vulnerability-automation)**
-
----
-
-### 5. 🔍 Advanced Threat Hunting
-**Status:** 🚧 Planned
-
-*Coming Soon: SIEM analysis and advanced threat detection techniques*
-
-**🔗 [View Project →](./project-5-threat-hunting)**
 
 ---
 
@@ -150,14 +130,14 @@ A production-ready AWS compliance auditor that performs **live security assessme
 
 | Metric | Value |
 |--------|-------|
-| **Completed Projects** | 3 / 5 |
-| **Lines of Code** | 6,200+ |
-| **Documentation Pages** | 25+ |
+| **Completed Projects** | 2 / 3 |
+| **Lines of Code** | 4,500+ |
+| **Documentation Pages** | 15+ |
 | **ML Model Accuracy** | 99.99% |
 | **Datasets Analyzed** | 225K+ samples |
-| **Cloud Resources Audited** | 22 AWS resources |
-| **Compliance Score** | 66.7% (Live AWS) |
-| **Frameworks Supported** | 7+ (NIST, ISO, CIS, etc.) |
+| **AWS Resources Audited** | 22 live resources |
+| **Live Compliance Score** | 66.7% (Real AWS) |
+| **CIS Controls Implemented** | 18 automated checks |
 
 ---
 

@@ -25,7 +25,7 @@ class RiskScorer:
     """
     Calculates risk scores for compliance controls based on configuration.
     """
-    
+
     def __init__(self, config_path: str = "config/scoring.yaml"):
         """
         Initialize RiskScorer with configuration.
@@ -106,4 +106,3 @@ class RiskScorer:
             'average_risk': round(total_risk / len(controls), 2),
             'high_risk_controls': high_risk_count
         }
-

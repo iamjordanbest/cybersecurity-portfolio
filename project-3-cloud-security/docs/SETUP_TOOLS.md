@@ -32,7 +32,7 @@ choco install terraform
 ```
 
 **Or Manual Install:**
-1. Download from: https://www.terraform.io/downloads
+1. Download from: https://w/yww.terraform.io/downloads
 2. Choose **Windows AMD64** (ZIP file)
 3. Extract `terraform.exe` to `C:\terraform`
 4. Add to PATH:

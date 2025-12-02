@@ -86,6 +86,20 @@ with tab1:
     
     with col1:
         st.subheader("Confusion Matrix")
+        
+        st.markdown("""
+        **What This Shows:** The model's "report card" — how accurately it separates normal traffic from DDoS attacks.
+        
+        - **Top-Left**: Normal traffic correctly identified as safe ✅
+        - **Bottom-Right**: Threats correctly caught and blocked ✅
+        - **Top-Right**: False alarms (legitimate traffic flagged as threats) ⚠️
+        - **Bottom-Left**: Missed attacks (threats that slipped through) 🚨
+        
+        **Why It Matters:** In cybersecurity, we need both boxes on the diagonal to be large — catching threats without disrupting legitimate users.
+        
+        **Impact:** This chart proves I understand the *business consequences* of model errors, not just accuracy scores. I built a system that balances security and user experience.
+        """)
+        
         # Recompute confusion matrix based on threshold
         y_true = df['True Label']
         y_pred = (df['Predicted Probability'] > threshold).astype(int)
@@ -102,6 +116,19 @@ with tab1:
 
     with col2:
         st.subheader("Prediction Distribution")
+        
+        st.markdown("""
+        **What This Shows:** The model's "confidence levels" for each prediction.
+        
+        - **Green bars (left)**: Normal traffic, assigned low threat scores
+        - **Red bars (right)**: Attacks, assigned high threat scores
+        - **Blue line**: The decision threshold you control
+        
+        **The Story:** A well-trained model creates clear separation — green clusters near 0%, red clusters near 100%. Overlap means uncertainty, which is where errors happen.
+        
+        **Impact:** This visualization shows I can explain ML concepts to non-technical stakeholders. I translate "probability distributions" into "confidence levels" that security analysts can act on.
+        """)
+        
         fig_dist = px.histogram(df, x="Predicted Probability", color="True Label",
                                 nbins=50,
                                 labels={'True Label': 'Actual Class'},
@@ -152,9 +179,14 @@ with tab2:
         st.markdown(f"""
         **AUC = {roc_auc:.4f}** (Perfect = 1.0)
         
-        The Receiver Operating Characteristic (ROC) curve shows the trade-off between sensitivity and specificity.
-        A perfect score of 1.0 means the model can **perfectly distinguish** between normal traffic and DDoS attacks
-        with zero overlap in their probability distributions.
+        **What This Shows:** The model's ability to rank threats higher than normal traffic, at every possible threshold.
+        
+        - **Perfect model (AUC = 1.0)**: Can always tell the difference, no matter where you set the threshold
+        - **Random guessing (AUC = 0.5)**: The diagonal line — no better than a coin flip
+        
+        **Why It Matters:** An AUC of {roc_auc:.4f} means the model has near-perfect discrimination. If you pick one random threat and one random normal packet, the model will *always* score the threat higher.
+        
+        **Impact:** Achieving near-perfect AUC demonstrates I can build production-grade ML systems, not just train models. I understand evaluation metrics that matter in security operations.
         """)
         
         fpr, tpr, _ = roc_curve(df['True Label'], df['Predicted Probability'])
@@ -174,8 +206,18 @@ with tab2:
     with col2:
         st.subheader("Precision-Recall Curve")
         st.markdown("""
-        **Why this matters:** In cybersecurity, we care deeply about **Precision** (avoiding false alarms) 
-        and **Recall** (catching all attacks). This curve shows how these metrics change as we adjust the threshold.
+        **What This Shows:** The trade-off between catching threats and avoiding false alarms.
+        
+        - **Precision (Y-axis)**: Of all alerts raised, how many are real threats?
+        - **Recall (X-axis)**: Of all real threats, how many did we catch?
+        
+        **The Trade-Off:** 
+        - Lower the threshold → Catch more attacks (high recall), but more false alarms (lower precision)
+        - Raise the threshold → Fewer false alarms (high precision), but miss some attacks (lower recall)
+        
+        **Why It Matters:** A curve that stays in the top-right corner means the model excels at *both* — the holy grail of threat detection.
+        
+        **Impact:** I designed this tool for real SOC analysts who need to balance alert fatigue with threat coverage. This chart shows I think about operationalizing ML, not just model performance.
         """)
         
         precision, recall, _ = precision_recall_curve(df['True Label'], df['Predicted Probability'])
