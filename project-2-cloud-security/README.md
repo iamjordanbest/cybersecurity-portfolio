@@ -2,7 +2,7 @@
 
 **Status:** 🎯 **PRODUCTION READY** - Dashboard Automation Complete  
 **Type:** GRC + Cloud Security + Data Visualization  
-**Stack:** AWS, Python (boto3), SQLite, Tableau Public  
+**Stack:** AWS, Python (boto3), SQLite, CSV Export  
 **Controls Implemented:** 18/20 CIS AWS Foundations Benchmark  
 **Latest Assessment:** 66.7% Compliance (Dec 1, 2025) with Real AWS Resources
 
@@ -10,21 +10,21 @@
 
 ## Overview
 
-A **production-ready** automated compliance auditor for AWS infrastructure that validates 18 CIS AWS Foundations Benchmark controls. Features live AWS audit results (66.7% compliance as of Dec 1, 2025) with comprehensive dashboard automation for immediate business intelligence deployment.
+A **production-ready** automated compliance auditor for AWS infrastructure that validates 18 CIS AWS Foundations Benchmark controls. Features live AWS audit results (66.7% compliance as of Dec 1, 2025) with structured data exports ready for programmatic dashboard creation.
 
 **🚀 Recent Achievements:**
 - ✅ **Live AWS audit completed** - Real security findings with specific resource IDs
-- ✅ **Dashboard automation toolkit** - PowerShell scripts + calculated fields guide  
-- ✅ **Professional data visualization** - Executive + Technical Tableau dashboards
+- ✅ **Data export pipeline** - Clean CSV exports for dashboard creation  
+- ✅ **Structured data output** - Ready for Grafana or other visualization tools
 - ✅ **4 failed controls identified** - Actionable AWS security improvements
 - ✅ **30-day compliance trends** - Historical performance tracking
 
 **Key Differentiators:**
 - 🎯 **Real AWS security assessment** - Live audit of actual cloud resources
-- 🎨 **Complete dashboard automation** - Build professional security dashboards in 10 minutes
+- 🎨 **Clean data exports** - Structured CSV output for programmatic dashboard creation
 - 📊 **Executive-ready reporting** - Category performance, trends, remediation priorities
 - 🔧 **Technical depth** - 18 production-quality auditors across 5 security domains
-- 📈 **Business intelligence pipeline** - SQLite → Pandas → Tableau with 504 data points
+- 📈 **Data processing pipeline** - SQLite → Pandas → CSV with 504 data points
 
 ---
 
@@ -36,11 +36,11 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 - **Evidence Collection** - Structured findings with remediation steps and specific resource IDs
 - **Compliance Database** - SQLite storage tracking 32 assessments with 504 control results
 
-### 📊 **Business Intelligence & Visualization**
-- **Dashboard Automation Toolkit** - PowerShell scripts for instant Tableau setup
-- **Executive Dashboards** - Compliance scorecards, category performance, trend analysis
-- **Technical Dashboards** - Failed controls remediation queue with severity prioritization
-- **Enhanced Data Pipeline** - SQLite → Pandas → 4 optimized CSV exports for Tableau
+### 📊 **Data Export & Analytics**
+- **Clean Data Pipeline** - Structured CSV exports for dashboard consumption
+- **Executive Metrics** - Compliance scorecards, category performance, trend analysis
+- **Technical Details** - Failed controls remediation queue with severity prioritization
+- **Multiple Export Formats** - SQLite → Pandas → 6 optimized CSV exports for visualization tools
 
 ### 🎯 **Current Live Results** 
 - **Latest Assessment**: 66.7% compliance (Assessment ID 32, Dec 1, 2025)
@@ -56,8 +56,8 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 |-------|-----------|---------|
 | **Auditors** | Python 3.11 + boto3 | Query AWS APIs, evaluate CIS controls |
 | **Database** | SQLite |Store assessments, results, findings |
-| **Data Export** | Pandas | Transform data for Tableau |
-| **Visualization** | Tableau Public | Executive compliance dashboards |
+| **Data Export** | Pandas | Transform data for visualization tools |
+| **Output Format** | CSV | Clean structured data exports |
 | **CLI** | Click | User-friendly orchestration |
 | **Testing** | pytest | Unit and integration tests |
 
@@ -79,15 +79,14 @@ project-3-cloud-security/
 ├── scripts/                     # Utility scripts
 │   ├── init_db.py               # Database schema initialization
 │   ├── generate_history.py      # Mock 30-day compliance data
-│   ├── tableau_export.py        # Basic CSV export
-│   └── enhanced_tableau_export.py  # Advanced Tableau data pipeline
+│   └── data_export.py           # Clean CSV export pipeline
 ├── data/                        # SQLite database (gitignored)
 │   └── cspm.db
-├── tableau/                     # Tableau data exports & automation
-│   ├── README.md                # Export documentation  
-│   ├── TABLEAU_DATA_CONNECTIONS_VISUAL.md  # Visual connection guide
-│   ├── tableau_dashboard_automation.ps1    # PowerShell automation script
-│   ├── calculated_fields_guide.json        # Tableau calculated fields
+├── exports/                     # CSV data exports for dashboards
+│   ├── compliance_summary.csv   # High-level assessment metrics
+│   ├── control_details.csv      # Individual control results
+│   ├── compliance_trends.csv    # Time-series data
+│   └── export_metadata.json     # Export configuration data
 │   └── dashboard_templates.json            # Dashboard layout specifications
 ├── docs/                        # Technical documentation
 │   └── ARCHITECTURE.md          # System design with Mermaid diagrams
@@ -135,7 +134,7 @@ project-3-cloud-security/
 ### Prerequisites
 - Python 3.11+
 - AWS CLI configured (optional - for actual AWS account audits)
-- Tableau Public (for dashboard creation)
+- Dashboard tool of choice (Grafana recommended)
 
 ### Installation
 
@@ -164,8 +163,8 @@ python scripts/generate_history.py
 # Run all compliance audits (live AWS or mock data)
 python cli.py audit --all
 
-# Generate fresh Tableau data exports
-python scripts/enhanced_tableau_export.py
+# Generate fresh CSV data exports
+python scripts/data_export.py
 
 # View current assessment status
 python cli.py status
@@ -174,30 +173,27 @@ python cli.py status
 python cli.py audit --category IAM
 ```
 
-### 🚀 **Instant Dashboard Creation (10 minutes)**
+### 🚀 **Data Export for Dashboard Creation**
 
-**Option 1: Automated Setup (Recommended)**
+**Generate Clean CSV Exports:**
 ```bash
-# 1. Generate fresh data exports
-python scripts/enhanced_tableau_export.py
-
-# 2. Run automation script (launches Tableau with guidance)
-powershell tableau/tableau_dashboard_automation.ps1
+# Export all compliance data to CSV files
+python scripts/data_export.py
 ```
 
-**Option 2: Manual Setup**
-1. **Export Data**: `python scripts/enhanced_tableau_export.py`
-2. **Connect Data Sources**:
-   - Primary: `tableau/compliance_summary_enhanced.csv`  
-   - Details: `tableau/control_details_enhanced.csv` (LEFT JOIN on `assessment_id`)
-   - Trends: `tableau/compliance_trends_enhanced.csv` (separate data source)
-3. **Build Dashboards**: Use `tableau/calculated_fields_guide.json` for formulas
-4. **Validate Results**: Current score 66.7%, 4 failed controls, category breakdown
+**Output Files Generated:**
+1. **compliance_summary.csv** - Assessment-level metrics over time
+2. **control_details.csv** - Individual control results from latest assessment  
+3. **compliance_trends.csv** - Daily aggregated trends for time-series
+4. **findings_summary.csv** - Category/severity breakdown
+5. **category_breakdown.csv** - Category-level compliance percentages
+6. **severity_distribution.csv** - Risk distribution analysis
+7. **export_metadata.json** - Export configuration and metadata
 
-**Expected Dashboard Results:**
-- 📊 Executive: Score 66.7%, category performance, 30-day trends  
-- 🔧 Technical: 4 failed controls with AWS resource IDs and remediation steps
-- 📈 Trends: Historical improvement from 93.8% peak to current 66.7%
+**Dashboard Integration:**
+- 📊 **Executive View**: Overall score, category performance, trends over time
+- 🔧 **Technical View**: Failed controls with AWS resource IDs and remediation
+- 📈 **Analytics**: Historical trends, severity distribution, category breakdown
 
 ---
 
@@ -219,13 +215,13 @@ powershell tableau/tableau_dashboard_automation.ps1
 └─────────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  3. Export for Tableau                                      │
-│     python scripts/enhanced_tableau_export.py               │
+│  3. Export for Dashboard Tools                               │
+│     python scripts/data_export.py                           │
 │     ↓ (Pandas → CSV transformation)                         │
 └─────────────────────────────────────────────────────────────┘
                           ↓
 ┌─────────────────────────────────────────────────────────────┐
-│  4. Visualize in Tableau                                    │
+│  4. Create Dashboards                                       │
 │     • Compliance scorecards                                 │
 │     • Trend analysis (30-day history)                       │
 │     • Category performance breakdown                        │
