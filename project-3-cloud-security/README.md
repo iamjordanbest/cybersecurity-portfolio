@@ -1,4 +1,4 @@
-# Project 3: Cloud Security Posture Management (CSPM) Auditor
+# Project 2: Cloud Security Posture Management (CSPM) Auditor
 
 **Status:** 🎯 **PRODUCTION READY** - Dashboard Automation Complete  
 **Type:** GRC + Cloud Security + Data Visualization  
@@ -347,12 +347,6 @@ $ python scripts/enhanced_tableau_export.py
 - [ ] Integration with AWS Security Hub
 - [ ] Slack/email notifications for compliance drift
 - [ ] PDF report generation for audit documentation
-
----
-
-## License
-
-MIT
 
 ---
 
