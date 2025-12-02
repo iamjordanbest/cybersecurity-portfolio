@@ -49,7 +49,7 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ---
 
-### 2. ☁️ [Cloud Security Posture Management (CSPM) Auditor](./project-3-cloud-security)
+### 2. ☁️ [Cloud Security Posture Management (CSPM) Auditor](./project-2-cloud-security)
 
 **Status:** 🎯 **PRODUCTION READY** | **Tech Stack:** Python, AWS, boto3, SQLite, Tableau, Terraform
 
@@ -74,11 +74,11 @@ A production-ready AWS compliance auditor that performs **live security assessme
 - **Specific Remediation**: AWS resource IDs with step-by-step security fixes
 - **ROI Demonstration**: Immediate business intelligence deployment ready
 
-**🔗 [View Project →](./project-3-cloud-security)**
+**🔗 [View Project →](./project-2-cloud-security)**
 
 ---
 
-### 3. 🔧 [Vulnerability Automation System](./project-4-vulnerability-automation)
+### 3. 🔧 [Vulnerability Automation System](./project-3-vulnerability-automation)
 
 **Status:** 🚧 In Development | **Tech Stack:** Python, Security APIs, Automation
 
@@ -90,7 +90,7 @@ An automated vulnerability management system that streamlines vulnerability asse
 - 📋 **Remediation Tracking** - Workflow automation and progress monitoring
 - 📈 **Analytics Dashboard** - Trend analysis and compliance reporting
 
-**🔗 [View Project →](./project-4-vulnerability-automation)**
+**🔗 [View Project →](./project-3-vulnerability-automation)**
 
 ---
 
