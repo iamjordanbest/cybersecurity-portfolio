@@ -29,7 +29,6 @@ st.set_page_config(
 st.title("🛡️ Cloud Security Posture Management (CSPM) Auditor")
 st.markdown("""
 **Enterprise-Grade AWS Security Compliance Dashboard**  
-*Production-ready automated security posture assessment against CIS AWS Foundations Benchmark v1.4.0*
 
 ## 🎯 What This Tool Does
 
@@ -41,9 +40,8 @@ This CSPM auditor demonstrates **real-world cybersecurity engineering capabiliti
 - **🔍 Regulatory Compliance**: Full CIS Benchmark v1.4.0 alignment for SOC2, PCI-DSS, and audit readiness
 - **🛠️ Remediation Automation**: CLI commands and Terraform modules for instant security fixes
 
-## 💼 Business Impact & ROI
+## 💼 Business Impact
 
-**Traditional Security Audit**: 2-3 weeks, $50,000+ consultant costs, manual errors  
 **This Automated Tool**: 5 minutes, $0 ongoing costs, 100% consistent results
 
 **Key Benefits:**
@@ -53,8 +51,6 @@ This CSPM auditor demonstrates **real-world cybersecurity engineering capabiliti
 - **Cost**: Saves $200,000+ annually in consultant fees and breach prevention
 
 ## 🏗️ Technical Architecture
-
-**Why This Matters for Hiring Managers:**
 
 This project showcases production-ready cybersecurity skills that directly translate to enterprise environments:
 
@@ -289,7 +285,6 @@ with tab3:
     - **Audit Readiness**: Systematic remediation satisfies compliance requirements
     - **Business Continuity**: Prevent security incidents before they occur
     
-    **👨‍💻 SOC Analyst Workflow**: This is exactly how enterprise Security Operations Centers prioritize and track remediation efforts.
     """)
     
     failed_df = get_failed_controls()

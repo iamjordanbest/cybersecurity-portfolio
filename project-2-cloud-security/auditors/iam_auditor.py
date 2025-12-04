@@ -15,7 +15,63 @@ class IAMAuditor(BaseAuditor):
         results.append(self.audit_iam_policies_on_groups())
         results.append(self.audit_access_key_rotation())
         results.append(self.audit_unused_iam_users())
+        results.append(self.audit_support_role())
         return results
+
+    def audit_support_role(self):
+        control = Control(
+            control_id="CIS-1.20",
+            title="Support Role Created",
+            description="Ensure a support role has been created to manage incidents with AWS Support.",
+            severity=Severity.MEDIUM,
+            category="Identity & Access Management",
+            cis_reference="1.20"
+        )
+        
+        try:
+            # Check for role with AWSSupportAccess policy
+            roles = self.iam.list_roles()['Roles']
+            support_role_found = False
+            role_name = None
+            
+            for role in roles:
+                try:
+                    attached_policies = self.iam.list_attached_role_policies(RoleName=role['RoleName'])['AttachedPolicies']
+                    for policy in attached_policies:
+                        if policy['PolicyName'] == 'AWSSupportAccess':
+                            support_role_found = True
+                            role_name = role['RoleName']
+                            break
+                except ClientError:
+                    continue
+                if support_role_found:
+                    break
+            
+            evidence = [
+                EvidenceArtifact(
+                    control_id=control.control_id,
+                    artifact_type="api_output",
+                    description="Support Role Check",
+                    content={"support_role_found": support_role_found, "role_name": role_name}
+                )
+            ]
+            
+            if support_role_found:
+                return self.create_assessment(control, ControlStatus.PASS, evidence=evidence)
+            else:
+                return self.create_assessment(
+                    control, 
+                    ControlStatus.FAIL,
+                    findings=[Finding(
+                        control_id=control.control_id,
+                        severity=Severity.MEDIUM,
+                        description="No role found with AWSSupportAccess policy.",
+                        remediation="Create a role for AWS Support access."
+                    )],
+                    evidence=evidence
+                )
+        except ClientError as e:
+            return self.handle_error(control.control_id, e)
 
     def audit_root_mfa(self):
         control = Control(

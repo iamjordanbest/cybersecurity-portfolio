@@ -9,8 +9,9 @@ from datetime import datetime, timedelta
 from typing import Dict, Any, List
 import os
 
-# Database path
-DB_PATH = "data/cspm.db"
+# Database path - robust resolution
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DB_PATH = os.path.join(BASE_DIR, "data", "cspm.db")
 
 def get_executive_metrics() -> Dict[str, Any]:
     """Get high-level compliance metrics"""
