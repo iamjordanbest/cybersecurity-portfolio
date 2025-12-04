@@ -2,7 +2,7 @@
 
 **Status:** 🎯 **PRODUCTION READY** - Dashboard Automation Complete  
 **Type:** GRC + Cloud Security + Data Visualization  
-**Stack:** AWS, Python (boto3), SQLite, CSV Export  
+**Stack:** AWS, Python (boto3), SQLite, Streamlit  
 **Controls Implemented:** 18/20 CIS AWS Foundations Benchmark  
 **Latest Assessment:** 66.7% Compliance (Dec 1, 2025) with Real AWS Resources
 
@@ -10,21 +10,21 @@
 
 ## Overview
 
-A **production-ready** automated compliance auditor for AWS infrastructure that validates 18 CIS AWS Foundations Benchmark controls. Features live AWS audit results (66.7% compliance as of Dec 1, 2025) with structured data exports ready for programmatic dashboard creation.
+A **production-ready** automated compliance auditor for AWS infrastructure that validates 18 CIS AWS Foundations Benchmark controls. Features live AWS audit results (66.7% compliance as of Dec 1, 2025) with an interactive **Streamlit dashboard** for real-time visualization.
 
 **🚀 Recent Achievements:**
 - ✅ **Live AWS audit completed** - Real security findings with specific resource IDs
-- ✅ **Data export pipeline** - Clean CSV exports for dashboard creation  
-- ✅ **Structured data output** - Ready for Grafana or other visualization tools
+- ✅ **Interactive Dashboard** - Streamlit app with executive and technical views
+- ✅ **Structured data pipeline** - SQLite storage for historical trend analysis
 - ✅ **4 failed controls identified** - Actionable AWS security improvements
 - ✅ **30-day compliance trends** - Historical performance tracking
 
 **Key Differentiators:**
 - 🎯 **Real AWS security assessment** - Live audit of actual cloud resources
-- 🎨 **Clean data exports** - Structured CSV output for programmatic dashboard creation
+- 🎨 **Interactive Visualization** - Streamlit dashboard with Plotly charts
 - 📊 **Executive-ready reporting** - Category performance, trends, remediation priorities
 - 🔧 **Technical depth** - 18 production-quality auditors across 5 security domains
-- 📈 **Data processing pipeline** - SQLite → Pandas → CSV with 504 data points
+- 📈 **Data processing pipeline** - SQLite → Pandas → Dashboard
 
 ---
 
@@ -36,11 +36,11 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 - **Evidence Collection** - Structured findings with remediation steps and specific resource IDs
 - **Compliance Database** - SQLite storage tracking 32 assessments with 504 control results
 
-### 📊 **Data Export & Analytics**
-- **Clean Data Pipeline** - Structured CSV exports for dashboard consumption
-- **Executive Metrics** - Compliance scorecards, category performance, trend analysis
-- **Technical Details** - Failed controls remediation queue with severity prioritization
-- **Multiple Export Formats** - SQLite → Pandas → 6 optimized CSV exports for visualization tools
+### 📊 **Interactive Dashboard**
+- **Executive View** - Overall compliance score and category performance
+- **Trend Analysis** - 30-day history of compliance scores and failures
+- **Remediation Queue** - Prioritized list of failed controls with AWS CLI fixes
+- **Control Explorer** - Searchable database of all 18 controls
 
 ### 🎯 **Current Live Results** 
 - **Latest Assessment**: 66.7% compliance (Assessment ID 32, Dec 1, 2025)
@@ -56,8 +56,7 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 |-------|-----------|---------|
 | **Auditors** | Python 3.11 + boto3 | Query AWS APIs, evaluate CIS controls |
 | **Database** | SQLite |Store assessments, results, findings |
-| **Data Export** | Pandas | Transform data for visualization tools |
-| **Output Format** | CSV | Clean structured data exports |
+| **Visualization** | Streamlit + Plotly | Interactive compliance dashboard |
 | **CLI** | Click | User-friendly orchestration |
 | **Testing** | pytest | Unit and integration tests |
 
@@ -66,30 +65,16 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 ## Project Structure
 
 ```
-project-3-cloud-security/
+project-2-cloud-security/
 ├── auditors/                    # Compliance audit modules
-│   ├──base_auditor.py          # Abstract base class with AWS session management
-│   ├── iam_auditor.py           # 5 Identity & Access Management controls
-│   ├── logging_auditor.py       # 4 CloudTrail & AWS Config controls
-│   ├── storage_auditor.py       # 3 S3 security controls
-│   ├── network_auditor.py       # 3 VPC & security group controls
-│   └── monitoring_auditor.py    # 3 CloudWatch alarm controls
+├── dashboard/                   # Streamlit Dashboard
+│   ├── app.py                   # Dashboard entry point
+│   └── metrics_generator.py     # Data extraction logic
 ├── models/                      # Data models
-│   └── compliance.py            # Control, Assessment, Finding classes
 ├── scripts/                     # Utility scripts
-│   ├── init_db.py               # Database schema initialization
-│   ├── generate_history.py      # Mock 30-day compliance data
-│   └── data_export.py           # Clean CSV export pipeline
 ├── data/                        # SQLite database (gitignored)
 │   └── cspm.db
-├── exports/                     # CSV data exports for dashboards
-│   ├── compliance_summary.csv   # High-level assessment metrics
-│   ├── control_details.csv      # Individual control results
-│   ├── compliance_trends.csv    # Time-series data
-│   └── export_metadata.json     # Export configuration data
-│   └── dashboard_templates.json            # Dashboard layout specifications
 ├── docs/                        # Technical documentation
-│   └── ARCHITECTURE.md          # System design with Mermaid diagrams
 ├── cli.py                       # Main CLI entry point
 ├── requirements.txt             # Python dependencies
 └── README.md                    # This file
@@ -98,6 +83,60 @@ project-3-cloud-security/
 ---
 
 ## CIS Controls Implemented (18 Total)
+
+### Identity & Access Management (IAM)
+| ID | Control | Severity | Status |
+|----|---------|----------|--------|
+| 1.4 | Root Account MFA | Critical | ✅ PASS |
+| 1.12 | Strong Password Policy | High | ✅ PASS |
+| 1.16 | IAM Policies on Groups | Medium | ❌ FAIL |
+| 1.20 | Access Keys Rotated | High | ✅ PASS |
+| 1.14 | Hardware MFA for Root | Critical | ✅ PASS |
+
+### Logging & Monitoring
+| ID | Control | Severity | Status |
+|----|---------|----------|--------|
+| 2.1 | CloudTrail Enabled | Critical | ✅ PASS |
+| 2.2 | Log Validation | Medium | ✅ PASS |
+| 2.7 | CloudTrail Encryption | High | ❌ FAIL |
+| 4.4 | IAM Policy Changes | Medium | ❌ FAIL |
+| 4.5 | CloudTrail Changes | Medium | ❌ FAIL |
+| 4.9 | AWS Config Changes | Medium | ❌ FAIL |
+
+---
+
+## Getting Started
+
+### 1. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 2. Run Security Audit
+Run the compliance checks against your AWS account:
+```bash
+python cli.py audit
+```
+
+### 3. Launch Dashboard
+Start the interactive dashboard (runs on port 8502 to avoid conflicts):
+```bash
+python cli.py dashboard
+```
+Or manually:
+```bash
+streamlit run dashboard/app.py --server.port 8502
+```
+
+---
+
+## Dashboard Preview
+
+The dashboard provides 4 key views:
+1. **Executive Dashboard**: High-level compliance score and pass/fail breakdown.
+2. **Compliance Trends**: Historical tracking of security posture.
+3. **Remediation Queue**: Actionable list of failed controls with severity.
+4. **Control Explorer**: Detailed look at all 18 CIS controls.
 
 ### Identity & Access Management (5)
 - ✅ **CIS-1.4** - Root account MFA enabled

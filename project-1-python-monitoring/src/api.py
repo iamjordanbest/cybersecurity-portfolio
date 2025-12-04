@@ -7,8 +7,13 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import pandas as pd
 import uvicorn
+import logging
 
 from preprocess import ThreatDataPreprocessor
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # Load the trained model and preprocessor
 MODEL_PATH = Path(__file__).parent / "threat_detection_model.pkl"
@@ -34,6 +39,18 @@ app = FastAPI(
 
 class PredictionRequest(BaseModel):
     features: Dict[str, Any]
+    
+    class Config:
+        # Add input validation
+        schema_extra = {
+            "example": {
+                "features": {
+                    "Flow Duration": 12000,
+                    "Total Fwd Packets": 8,
+                    "Total Backward Packets": 0
+                }
+            }
+        }
 
 class PredictionResponse(BaseModel):
     prediction: int
@@ -88,7 +105,9 @@ def predict(request: PredictionRequest):
         )
         
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Prediction error: {str(e)}")
+        # Security fix: Don't expose detailed error information
+        logger.error(f"Prediction error: {str(e)}")
+        raise HTTPException(status_code=400, detail="Invalid input data provided")
 
 if __name__ == "__main__":
     print("\n" + "="*50)

@@ -25,5 +25,19 @@ output "deployment_summary" {
     cloudtrail_encryption_key      = aws_kms_key.cloudtrail.id
     s3_buckets_created             = 2
     vpc_flow_logs_enabled          = true
+    rds_endpoint                   = aws_db_instance.postgresql.endpoint
+    rds_port                       = aws_db_instance.postgresql.port
   }
+}
+
+# RDS connection details for applications
+output "rds_connection_details" {
+  description = "RDS PostgreSQL connection details for Grafana"
+  value = {
+    endpoint = aws_db_instance.postgresql.endpoint
+    port     = aws_db_instance.postgresql.port
+    database = aws_db_instance.postgresql.db_name
+    username = aws_db_instance.postgresql.username
+  }
+  sensitive = false
 }

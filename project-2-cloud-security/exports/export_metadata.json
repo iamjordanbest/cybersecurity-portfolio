@@ -1,0 +1,22 @@
+{
+  "export_timestamp": "20251202_011413",
+  "latest_assessment": {
+    "id": 30,
+    "timestamp": "2025-12-01T01:13:33.417276",
+    "account_id": "307940789526",
+    "total_controls": 16,
+    "passed_controls": 14,
+    "failed_controls": 2,
+    "score": 87.5
+  },
+  "available_categories": [],
+  "available_severities": [],
+  "export_files": [
+    "compliance_summary.csv",
+    "control_details.csv",
+    "compliance_trends.csv",
+    "findings_summary.csv",
+    "category_breakdown.csv",
+    "severity_distribution.csv"
+  ]
+}

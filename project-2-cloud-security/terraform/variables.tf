@@ -17,3 +17,10 @@ variable "enable_mfa_delete" {
   type        = bool
   default     = false  # Set to true after manual MFA setup
 }
+
+variable "db_password" {
+  description = "Password for RDS PostgreSQL instance"
+  type        = string
+  default     = "CSPMAuditor2024!"
+  sensitive   = true
+}

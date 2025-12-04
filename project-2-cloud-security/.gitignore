@@ -13,13 +13,31 @@ terraform/.terraform.lock.hcl
 __pycache__/
 *.pyc
 *.pyo
+*.pyd
+.Python
 venv/
-.env
+env/
+*.egg-info/
+dist/
+build/
 
-# Data
+# Environment variables and credentials (CRITICAL - DO NOT COMMIT)
+.env
+.env.local
+.env.*.local
+config/grafana_cloud.json
+grafana_credentials.py
+
+# Data and database
 data/*.db
+data/*.db-journal
+data/*.db-wal
 evidence/*.png
 evidence/*.json
+exports/*.csv
+
+# Generated Alloy config (contains credentials)
+alloy-config.alloy
 
 # Tableau generated files
 tableau/*.csv
@@ -31,3 +49,13 @@ tableau/*.twbr
 # IDE
 .vscode/
 .idea/
+*.swp
+*.swo
+*.swn
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.cover

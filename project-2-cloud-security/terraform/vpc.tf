@@ -108,14 +108,29 @@ resource "aws_security_group" "restricted" {
 }
 
 # ============================================
-# Subnet (for completeness, though not required for auditing)
+# Subnets for RDS (Multi-AZ requirement)
 # ============================================
-resource "aws_subnet" "main" {
-  vpc_id     = aws_vpc.main.id
-  cidr_block = "10.0.1.0/24"
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
+resource "aws_subnet" "private_a" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-    Name = "${var.project_name}-subnet"
+    Name = "${var.project_name}-private-subnet-a"
+  }
+}
+
+resource "aws_subnet" "private_b" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = data.aws_availability_zones.available.names[1]
+
+  tags = {
+    Name = "${var.project_name}-private-subnet-b"
   }
 }
 

@@ -99,5 +99,12 @@ def audit(profile, region, output):
     except Exception as e:
         logger.error(f"Failed to save to database: {e}")
 
+@cli.command()
+def dashboard():
+    """Launch interactive Streamlit dashboard."""
+    import os
+    print("🚀 Starting CSPM Dashboard on port 8502...")
+    os.system("streamlit run dashboard/app.py --server.port 8502")
+
 if __name__ == '__main__':
     cli()

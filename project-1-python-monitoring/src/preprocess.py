@@ -24,6 +24,8 @@ class ThreatDataPreprocessor:
     def load_data(self, filepath):
         filepath = os.path.normpath(filepath)
         df = pd.read_csv(filepath)
+        # Fix: Strip whitespace from column names
+        df.columns = df.columns.str.strip()
         print(f"Data loaded: {df.shape[0]} rows, {df.shape[1]} columns")
         return df
     

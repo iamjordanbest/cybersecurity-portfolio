@@ -15,7 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description="Run Project 1: Python Monitoring Pipeline")
     default_data_path = Path(__file__).parent / 'data' / 'raw_data.csv'
     parser.add_argument('--data', type=str, default=str(default_data_path), help='Path to raw data CSV')
-    parser.add_argument('--target', type=str, default=' Label', help='Name of the target column')
+    parser.add_argument('--target', type=str, default='Label', help='Name of the target column (whitespace will be auto-stripped)')
     args = parser.parse_args()
 
     print("Starting Project 1: Python Monitoring Pipeline...")
