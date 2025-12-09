@@ -1,411 +1,185 @@
-# Project 2: Cloud Security Posture Management (CSPM) Auditor
+# Cloud Security Posture Management (CSPM) Auditor
 
-**Status:** 🎯 **PRODUCTION READY** - Dashboard Automation Complete  
-**Type:** GRC + Cloud Security + Data Visualization  
-**Stack:** AWS, Python (boto3), SQLite, Streamlit  
-**Controls Implemented:** 32 CIS AWS Foundations Benchmark v1.4.0  
-**Latest Assessment:** Live AWS compliance auditing with interactive dashboard
+A production-ready AWS compliance auditor implementing **32 CIS AWS Foundations Benchmark v1.4.0** controls. This project demonstrates automated cloud security assessment with live AWS API integration and an interactive Streamlit dashboard.
 
----
+## 🎯 Key Features
 
-## Overview
+- **32 CIS Controls**: Comprehensive coverage across IAM (10), Storage (8), Logging (5), Monitoring (5), and Networking (4)
+- **Live AWS Integration**: Real boto3 API calls validating actual cloud resources
+- **Interactive Dashboard**: Streamlit web app with executive overview, compliance trends, and remediation queue
+- **Evidence Collection**: Structured findings with specific AWS resource IDs and remediation steps
+- **SQLite Storage**: Historical assessment tracking for trend analysis
 
-A **production-ready** automated compliance auditor for AWS infrastructure that validates **32 CIS AWS Foundations Benchmark v1.4.0** controls. Features live AWS audit results with an interactive **Streamlit dashboard** for real-time compliance visualization and remediation tracking.
-
-**🚀 Recent Achievements:**
-- ✅ **32 CIS Controls** - Standardized implementation across 5 security domains
-- ✅ **Interactive Dashboard** - Streamlit app with executive and technical views
-- ✅ **Structured data pipeline** - SQLite storage for historical trend analysis
-- ✅ **Live AWS auditing** - Real security findings with specific resource IDs
-- ✅ **Automated remediation guidance** - Actionable fixes for failed controls
-
-**Key Differentiators:**
-- 🎯 **Comprehensive coverage** - 32 controls across IAM (10), Storage (8), Logging (5), Monitoring (5), Networking (4)
-- 🎨 **Interactive Visualization** - Streamlit dashboard with Plotly charts
-- 📊 **Executive-ready reporting** - Category performance, trends, remediation priorities
-- 🔧 **Production-quality code** - Modular auditors with full AWS API integration
-- 📈 **Data processing pipeline** - SQLite → Pandas → Dashboard
-
----
-
-## Features
-
-### 🔍 **Security Audit Engine**
-- **32 CIS Control Auditors** - Production-quality checks across IAM (10), Storage (8), Logging (5), Monitoring (5), Networking (4)
-- **Real AWS Integration** - Live boto3 API calls with actual resource validation
-- **Evidence Collection** - Structured findings with remediation steps and specific resource IDs
-- **Compliance Database** - SQLite storage for historical assessment tracking
-
-### 📊 **Interactive Dashboard**
-- **Executive View** - Overall compliance score and category performance
-- **Trend Analysis** - Historical tracking of compliance scores
-- **Remediation Queue** - Prioritized list of failed controls with AWS CLI fixes
-- **Control Explorer** - Searchable database of all 32 CIS controls
-
-### 🎯 **Current Live Results** 
-- **Latest Assessment**: 66.7% compliance (Assessment ID 32, Dec 1, 2025)
-- **Failed Controls**: 4 specific AWS security findings with actionable remediation
-- **Category Performance**: Storage 100%, IAM 80%, Networking 33%, Monitoring 0%
-- **Real AWS Resources**: `sg-0b956aa6b4c402eb1`, `admin-user`, `vpc-0af85f16d6ae66b9a`
-
----
-
-## Tech Stack
-
-| Layer | Technology | Purpose |
-|-------|-----------|---------|
-| **Auditors** | Python 3.11 + boto3 | Query AWS APIs, evaluate CIS controls |
-| **Database** | SQLite |Store assessments, results, findings |
-| **Visualization** | Streamlit + Plotly | Interactive compliance dashboard |
-| **CLI** | Click | User-friendly orchestration |
-| **Testing** | pytest | Unit and integration tests |
-
----
-
-## Project Structure
+## 📁 Project Structure
 
 ```
 project-2-cloud-security/
-├── auditors/                    # Compliance audit modules
-├── dashboard/                   # Streamlit Dashboard
-│   ├── app.py                   # Dashboard entry point
-│   └── metrics_generator.py     # Data extraction logic
-├── models/                      # Data models
-├── scripts/                     # Utility scripts
-├── data/                        # SQLite database (gitignored)
-│   └── cspm.db
-├── docs/                        # Technical documentation
-├── cli.py                       # Main CLI entry point
-├── requirements.txt             # Python dependencies
-└── README.md                    # This file
+├── auditors/
+│   ├── base_auditor.py         # Abstract base class for auditors
+│   ├── iam_auditor.py          # 10 IAM controls (CIS 1.x)
+│   ├── storage_auditor.py      # 8 Storage controls (CIS 2.x)
+│   ├── logging_auditor.py      # 5 Logging controls (CIS 2.x)
+│   ├── monitoring_auditor.py   # 5 Monitoring controls (CIS 3.x)
+│   └── network_auditor.py      # 4 Network controls (CIS 5.x)
+├── dashboard/
+│   ├── app.py                  # Streamlit dashboard
+│   └── metrics_generator.py    # Data extraction logic
+├── models/
+│   └── compliance.py           # Data models (Control, Finding, etc.)
+├── scripts/
+│   └── init_db.py              # Database initialization
+├── data/
+│   └── cspm.db                 # SQLite database (gitignored)
+├── docs/
+│   ├── AWS_MANUAL_REMEDIATION_GUIDE.md  # Manual fix instructions
+│   └── dashboard_screenshot.png
+├── cli.py                      # Main CLI entry point
+├── requirements.txt            # Python dependencies
+└── README.md
 ```
 
----
+## 🚀 Getting Started
 
-## CIS Controls Implemented (32 Total)
+### Prerequisites
 
-### Identity & Access Management (10)
-- **CIS-1.1** - Root Account MFA Enabled (Critical)
-- **CIS-1.2** - Root Account Access Keys (Critical)
-- **CIS-1.3** - Credentials Unused > 90 Days (High)
-- **CIS-1.5** - Comprehensive Password Policy (High)
-- **CIS-1.6** - Hardware MFA for Root (Critical)
-- **CIS-1.7** - Eliminate Root User Usage (Critical)
-- **CIS-1.8** - IAM User MFA Enabled (High)
-- **CIS-1.9** - Access Key Rotation (High)
-- **CIS-1.15** - IAM Policies Attached to Groups (Medium)
-- **CIS-1.17** - Support Role Created (Medium)
+- Python 3.9+
+- AWS CLI configured with credentials
+- pip
 
-### Storage Security (8)
-- **CIS-2.1.1** - S3 Bucket Encryption (High)
-- **CIS-2.1.2** - S3 Bucket Versioning (Medium)
-- **CIS-2.1.5** - S3 Block Public Access (Critical)
-- **CIS-2.3** - S3 Access Logging (Medium)
-- **CIS-2.6** - S3 Public Read Disabled (Critical)
-- **CIS-2.8** - KMS Key Rotation (High)
-- **CIS-2.10** - S3 Object Logging (Medium)
-- **CIS-2.11** - Enforce SSL in S3 Policies (High)
+### Installation
 
-### Logging (5)
-- **CIS-2.1** - CloudTrail Enabled in All Regions (Critical)
-- **CIS-2.2** - CloudTrail Log File Validation (Medium)
-- **CIS-2.4** - CloudWatch Logs Integration (High)
-- **CIS-2.5** - AWS Config Enabled (High)
-- **CIS-2.7** - CloudTrail Logs Encrypted with KMS (High)
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd project-2-cloud-security
+   ```
 
-### Monitoring (5)
-- **CIS-3.1** - Metric Filter: Unauthorized API Calls (Medium)
-- **CIS-3.2** - Metric Filter: Console Sign-in without MFA (Medium)
-- **CIS-3.4** - Metric Filter: IAM Policy Changes (Medium)
-- **CIS-3.5** - Metric Filter: CloudTrail Config Changes (Medium)
-- **CIS-3.9** - Metric Filter: AWS Config Changes (Medium)
+2. **Install dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-### Networking (4)
-- **CIS-5.1** - No Unrestricted SSH/RDP Access (Critical)
-- **CIS-5.2** - No Unrestricted Egress (Medium)
-- **CIS-5.3** - Default Security Group Closed (High)
-- **CIS-2.9** - VPC Flow Logs Enabled (High)
+3. **Initialize database**
+   ```bash
+   python scripts/init_db.py
+   ```
 
----
+### Usage
 
-## Getting Started
+#### 1. Run Security Audit
 
-### 1. Install Dependencies
-```bash
-pip install -r requirements.txt
-```
+Execute all 32 CIS control checks against your AWS account:
 
-### 2. Run Security Audit
-Run the compliance checks against your AWS account:
 ```bash
 python cli.py audit
 ```
 
-### 3. Launch Dashboard
-Start the interactive dashboard (runs on port 8502 to avoid conflicts):
+This will:
+- Connect to your AWS account via boto3
+- Execute all auditor modules
+- Save results to SQLite database
+- Generate `report.json` with findings
+
+#### 2. Launch the Dashboard
+
+Start the interactive Streamlit dashboard:
+
 ```bash
 python cli.py dashboard
 ```
-Or manually:
-```bash
-streamlit run dashboard/app.py --server.port 8502
-```
 
----
+The dashboard opens at `http://localhost:8502` with:
+- **Executive Dashboard**: Compliance score, pass/fail breakdown, category performance
+- **Compliance Trends**: Historical tracking over time
+- **Remediation Queue**: Prioritized list of failed controls with severity
+- **Control Explorer**: Searchable table of all 32 CIS controls
 
-## Dashboard Preview
+## 📊 CIS Controls Implemented (32 Total)
 
-The dashboard provides 4 key views:
-1. **Executive Dashboard**: High-level compliance score and pass/fail breakdown.
-2. **Compliance Trends**: Historical tracking of security posture.
-3. **Remediation Queue**: Actionable list of failed controls with severity.
-4. **Control Explorer**: Detailed look at all 18 CIS controls.
+### Identity & Access Management (10)
+| Control | Description | Severity |
+|---------|-------------|----------|
+| CIS-1.1 | Root Account MFA Enabled | Critical |
+| CIS-1.2 | Root Account Access Keys | Critical |
+| CIS-1.3 | Credentials Unused > 90 Days | High |
+| CIS-1.5 | Comprehensive Password Policy | High |
+| CIS-1.6 | Hardware MFA for Root | Critical |
+| CIS-1.7 | Eliminate Root User Usage | Critical |
+| CIS-1.8 | IAM User MFA Enabled | High |
+| CIS-1.9 | Access Key Rotation (90 Days) | High |
+| CIS-1.15 | IAM Policies Attached to Groups | Medium |
+| CIS-1.17 | Support Role Created | Medium |
 
-### Identity & Access Management (5)
-- ✅ **CIS-1.4** - Root account MFA enabled
-- ✅ **CIS-1.12** - Strong IAM password policy (14+ chars, complexity)
-- ✅ **CIS-1.14** - Access keys rotated within 90 days
-- ✅ **CIS-1.16** - IAM policies attached to groups (not users directly)
-- ✅ **CIS-1.12b** - Unused IAM users disabled (>90 days inactive)
+### Storage (8)
+| Control | Description | Severity |
+|---------|-------------|----------|
+| CIS-2.1.1 | S3 Bucket Encryption | High |
+| CIS-2.1.2 | S3 Bucket Versioning | Medium |
+| CIS-2.1.5 | S3 Block Public Access | Critical |
+| CIS-2.3 | S3 Access Logging | Medium |
+| CIS-2.6 | S3 Public Read Disabled | Critical |
+| CIS-2.8 | KMS Key Rotation | High |
+| CIS-2.10 | S3 Object Logging | Medium |
+| CIS-2.11 | Enforce SSL in S3 Policies | High |
 
-### Logging & Monitoring (4)
-- ✅ **CIS-2.1** - CloudTrail enabled in all regions
-- ✅ **CIS-2.2** - CloudTrail log file validation enabled
-- ✅ **CIS-2.5** - AWS Config enabled and recording
-- ✅ **CIS-2.7** - CloudTrail logs encrypted with KMS
+### Logging (5)
+| Control | Description | Severity |
+|---------|-------------|----------|
+| CIS-2.1 | CloudTrail Enabled in All Regions | Critical |
+| CIS-2.2 | CloudTrail Log File Validation | Medium |
+| CIS-2.4 | CloudWatch Logs Integration | High |
+| CIS-2.5 | AWS Config Enabled | High |
+| CIS-2.7 | CloudTrail Logs Encrypted with KMS | High |
 
-### Storage Security (3)
-- ✅ **CIS-2.1.1** - S3 bucket server-side encryption enabled
-- ✅ **CIS-2.1.2** - S3 bucket versioning enabled
-- ✅ **CIS-2.1.5** - S3 Block Public Access enabled
+### Monitoring (5)
+| Control | Description | Severity |
+|---------|-------------|----------|
+| CIS-3.1 | Metric Filter: Unauthorized API Calls | Medium |
+| CIS-3.2 | Metric Filter: Console Sign-in without MFA | Medium |
+| CIS-3.4 | Metric Filter: IAM Policy Changes | Medium |
+| CIS-3.5 | Metric Filter: CloudTrail Config Changes | Medium |
+| CIS-3.9 | Metric Filter: AWS Config Changes | Medium |
 
-### Network Security (3)
-- ✅ **CIS-2.9** - VPC Flow Logs enabled
-- ✅ **CIS-4.1** - No unrestricted SSH/RDP access (0.0.0.0/0)
-- ✅ **CIS-4.3** - Default security group restricts all traffic
+### Networking (4)
+| Control | Description | Severity |
+|---------|-------------|----------|
+| CIS-5.1 | No Unrestricted SSH/RDP Access | Critical |
+| CIS-5.2 | No Unrestricted Egress | Medium |
+| CIS-5.3 | Default Security Group Closed | High |
+| CIS-2.9 | VPC Flow Logs Enabled | High |
 
-### CloudWatch Monitoring (3)
-- ✅ **CIS-4.4** - Log metric filter for IAM policy changes
-- ✅ **CIS-4.5** - Log metric filter for CloudTrail configuration changes
-- ✅ **CIS-4.9** - Log metric filter for AWS Config changes
+## 🔍 Key Insights
 
----
+**Security Domain Coverage:**
+- IAM controls protect against identity-based attacks
+- Storage controls secure S3 data at rest and in transit
+- Logging ensures audit trail for forensics
+- Monitoring provides real-time alerting on suspicious activity
+- Networking controls prevent unauthorized access
 
-## Getting Started
+**Evidence-Based Findings:**
+- Each failed control includes specific AWS resource IDs
+- Remediation steps provided for every finding
+- Severity scoring for risk-based prioritization
 
-### Prerequisites
-- Python 3.11+
-- AWS CLI configured (optional - for actual AWS account audits)
-- Dashboard tool of choice (Grafana recommended)
+## 🏆 Recruiter's Perspective: Why This Matters
 
-### Installation
+This project demonstrates cloud security expertise and production-ready engineering:
 
-```bash
-# Clone repository
-git clone <repo-url>
-cd project-3-cloud-security
+### 1. Real-World Compliance
+- **Industry Standard**: CIS AWS Foundations Benchmark v1.4.0 is recognized by SOC 2, ISO 27001, and PCI-DSS
+- **Actionable Results**: Not just pass/fail, but specific resources and remediation steps
 
-# Create virtual environment
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+### 2. Technical Depth
+- **Modular Architecture**: Abstract base class pattern for extensible auditors
+- **Error Handling**: Graceful handling of missing AWS services and permissions
+- **Data Pipeline**: SQLite storage enabling historical trend analysis
 
-# Install dependencies
-pip install -r requirements.txt
+### 3. Business Value
+- **Continuous Monitoring**: Replace manual audits with automated 24/7 checks
+- **Risk Reduction**: Proactive identification of security gaps before incidents
+- **Cost Savings**: Eliminates consultant dependencies for routine compliance
 
-# Initialize database
-python scripts/init_db.py
+## 📚 Additional Documentation
 
-# Generate sample audit history (30 days)
-python scripts/generate_history.py
-```
-
-### Usage
-
-```bash
-# Run all compliance audits (live AWS or mock data)
-python cli.py audit --all
-
-# Generate fresh CSV data exports
-python scripts/data_export.py
-
-# View current assessment status
-python cli.py status
-
-# Run category-specific audits
-python cli.py audit --category IAM
-```
-
-### 🚀 **Data Export for Dashboard Creation**
-
-**Generate Clean CSV Exports:**
-```bash
-# Export all compliance data to CSV files
-python scripts/data_export.py
-```
-
-**Output Files Generated:**
-1. **compliance_summary.csv** - Assessment-level metrics over time
-2. **control_details.csv** - Individual control results from latest assessment  
-3. **compliance_trends.csv** - Daily aggregated trends for time-series
-4. **findings_summary.csv** - Category/severity breakdown
-5. **category_breakdown.csv** - Category-level compliance percentages
-6. **severity_distribution.csv** - Risk distribution analysis
-7. **export_metadata.json** - Export configuration and metadata
-
-**Dashboard Integration:**
-- 📊 **Executive View**: Overall score, category performance, trends over time
-- 🔧 **Technical View**: Failed controls with AWS resource IDs and remediation
-- 📈 **Analytics**: Historical trends, severity distribution, category breakdown
-
----
-
-## Data Pipeline
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│  1. Run Audits                                              │
-│     python cli.py audit --all                               │
-│     ↓ (boto3 → AWS APIs or mock data)                      │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│  2. Store Results                                           │
-│     SQLite Database (cspm.db)                               │
-│     • assessments table (summary metrics)                   │
-│     • controls table (CIS control definitions)              │
-│     • assessment_results table (control pass/fail per run)  │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│  3. Export for Dashboard Tools                               │
-│     python scripts/data_export.py                           │
-│     ↓ (Pandas → CSV transformation)                         │
-└─────────────────────────────────────────────────────────────┘
-                          ↓
-┌─────────────────────────────────────────────────────────────┐
-│  4. Create Dashboards                                       │
-│     • Compliance scorecards                                 │
-│     • Trend analysis (30-day history)                       │
-│     • Category performance breakdown                        │
-│     • Failed controls remediation queue                     │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
-## Skills Demonstrated
-
-**Cloud Security:**
-- AWS IAM best practices and policy evaluation
-- CloudTrail forensics and audit logging
-- S3 security configuration (encryption, versioning, access control)
-- VPC security (flow logs, security groups)
-- AWS Config compliance monitoring
-
-**Software Engineering:**
-- Python automation with boto3 SDK
-- Object-oriented design with abstract base classes
-- CLI development with Click framework
-- SQLite database design and ORM patterns
-- Data transformation pipelines with Pandas
-- Mock data generation for testing and demos
-
-**Compliance & GRC:**
-- CIS Benchmark framework implementation
-- Control evidence collection and management
-- Risk-based remediation prioritization (severity scoring)
-- Historical compliance tracking
-- Executive reporting and data visualization
-
----
-
-## Architecture Highlights
-
-- **Modular Auditor Design**: Each security category (IAM, Logging, Storage, etc.) implemented as separate auditor class inheriting from `BaseAuditor`
-- **Standardized Data Models**: `Control`, `Assessment`, `Finding` classes ensure consistent data structure
-- **Flexible Data Export**: Multiple CSV exports optimized for different Tableau use cases (summary, detail, trends)
-- **Mock Data Support**: Can demonstrate project without live AWS account using generated historical data
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed system design and Mermaid diagrams.
-
----
-
-## Sample Output
-
-**🎯 Live AWS Audit Results (Dec 1, 2025)**
-```bash
-$ python scripts/enhanced_tableau_export.py
-
-🚀 CSMP AUDITOR TABLEAU DATA EXPORT
-===================================
-📊 Assessment ID: 32 (Latest)
-📅 Timestamp: 2025-12-01 14:30:22
-🎯 Current Score: 66.7% (Poor - Improvement Opportunity)
-
-✅ EXPORT SUMMARY
-================
-✓ Exported 504 control results across all assessments
-✓ Generated 4 enhanced CSV files for Tableau
-✓ Latest assessment: 8/12 controls passing
-
-📈 CATEGORY PERFORMANCE:
-======================
-  Storage: 100.0% (2/2) ✅
-  IAM: 80.0% (4/5) ⚠️  
-  Networking: 33.3% (1/3) 🔴
-  Monitoring: 0.0% (0/2) 🚨
-
-🔴 FAILED CONTROLS (4):
-======================
-  • CIS-1.16: IAM policies directly attached to users (HIGH)
-    Resource: admin-user
-    Remediation: Attach policies to groups instead
-    
-  • CIS-4.3: Default security group allows traffic (MEDIUM) 
-    Resource: sg-0b956aa6b4c402eb1
-    Remediation: Remove all inbound/outbound rules
-    
-  • CIS-2.9: VPC Flow Logs not enabled (MEDIUM)
-    Resource: vpc-0af85f16d6ae66b9a  
-    Remediation: Enable VPC Flow Logs to CloudWatch
-    
-  • CIS-4.4: CloudWatch alarm for IAM changes missing (LOW)
-    Remediation: Create metric filter + alarm
-
-📊 Dashboard automation ready!
-⚡ Next: powershell tableau/tableau_dashboard_automation.ps1
-```
-
----
-
-## Portfolio Impact
-
-**Why This Project Stands Out:**
-
-1. **Live Security Assessment** - Real AWS audit with 66.7% compliance score and 4 actionable findings
-2. **Complete Dashboard Automation** - PowerShell scripts + calculated fields for instant BI deployment
-3. **Production-Ready Code** - 2000+ lines of well-structured Python with boto3 integration
-4. **Industry-Standard Framework** - CIS AWS Foundations Benchmark (SOC 2, ISO 27001 recognized)
-5. **Executive + Technical Reporting** - Both compliance scorecards and detailed remediation guidance
-6. **Real Business Value** - Demonstrates immediate ROI with specific AWS resource security improvements
-
-**Interview Talking Points:**
-- Can explain each CIS control and why it matters for security posture
-- Can walk through auditor code showing boto3 AWS API calls
-- Can demonstrate Tableau dashboards showing compliance trends
-- Can discuss tradeoffs in data model design (normalization vs. denormalization for BI)
-
----
-
-## Future Enhancements
-
-- [ ] Terraform IaC module for deploying compliant AWS infrastructure
-- [ ] Automated remediation scripts for common failures
-- [ ] Additional CIS controls (expand to 40+)
-- [ ] Integration with AWS Security Hub
-- [ ] Slack/email notifications for compliance drift
-- [ ] PDF report generation for audit documentation
-
----
-
-**Status:** 🎯 **PRODUCTION READY** - Live AWS audit complete with automated dashboard creation toolkit
+- [AWS Manual Remediation Guide](docs/AWS_MANUAL_REMEDIATION_GUIDE.md) - Step-by-step console instructions for each control
