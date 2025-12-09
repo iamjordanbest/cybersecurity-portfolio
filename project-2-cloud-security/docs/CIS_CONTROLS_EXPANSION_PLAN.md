@@ -3,9 +3,10 @@
 ## 📊 Current Status Overview
 
 **Current Implementation:** 18 Controls ✅ **PRODUCTION READY**  
-**Target:** 40 Controls 🎯 **ENTERPRISE SCALE**  
-**Remaining:** 22 Controls to implement  
-**Current Compliance Score:** 66.7% → **Target:** 95%+ compliance
+**Target:** 32 Controls 🎯 **FREE TIER MAXIMUM**  
+**Remaining:** 14 FREE Controls to implement  
+**Current Compliance Score:** 66.7% → **Target:** 80%+ compliance  
+**Monthly Cost:** $0.00 → **Target:** $0.00 (100% FREE)
 
 ---
 
@@ -43,9 +44,10 @@
 
 ---
 
-## 🚀 Expansion Plan: 22 Additional Controls
+## 🆓 FREE Expansion Plan: 14 Additional Controls (Zero Cost)
 
-### **Phase 1: IAM Security Enhancement (8 Additional Controls)**
+### **🆓 Phase 2: FREE IAM Security Enhancement (8 Additional Controls)**
+*All controls use only free AWS API calls - no paid services required*
 
 #### **CIS-1.1: Root Account MFA** 🔥 *Critical*
 **Implementation Requirements:**
@@ -124,7 +126,8 @@ def audit_root_mfa(self):
 - **Expected Result:** Identify keys needing rotation with age and usage patterns
 - **Business Impact:** Reduces long-term credential exposure risk
 
-### **Phase 2: Enhanced Logging & Monitoring (5 Additional Controls)**
+### **🆓 Phase 3: FREE Storage & Logging Enhancement (5 Additional Controls)**
+*All controls use API detection only - no CloudWatch costs*
 
 #### **CIS-2.3: CloudTrail S3 Bucket Access Logging** 🟡 *High*
 **Implementation Requirements:**
@@ -166,87 +169,66 @@ def audit_root_mfa(self):
 - **Expected Result:** Ensure comprehensive S3 activity monitoring beyond bucket management
 - **Business Impact:** Provides detailed audit trail of actual data access patterns
 
-### **Phase 3: Advanced Networking Security (4 Additional Controls)**
+### **🆓 Phase 4: FREE Network Security Analysis (1 Additional Control)**
+*Basic security group analysis without real-time monitoring costs*
 
-#### **CIS-4.2: Security Groups Egress Restriction** 🟡 *High*
-**Implementation Requirements:**
-- **AWS API:** `ec2.describe_security_groups()` - Analyze `IpPermissionsEgress` field
-- **Current Gap:** Current network audit focuses on ingress rules, not egress monitoring
-- **Logic:** Detect security groups allowing 0.0.0.0/0 egress on all ports (beyond default SG)
-- **Expected Result:** Flag overly permissive egress rules that could enable data exfiltration
-- **Business Impact:** Prevents unrestricted outbound access that could be exploited by attackers
+#### **CIS-4.2: Security Groups Egress Analysis (FREE)** 🟡 *High*
+**FREE Implementation Requirements:**
+- **AWS API:** `ec2.describe_security_groups()` - Analyze `IpPermissionsEgress` field (FREE API call)
+- **Current Gap:** Current network audit focuses on ingress rules, not egress analysis
+- **Logic:** Detect security groups allowing 0.0.0.0/0 egress on all ports (static analysis only)
+- **Expected Result:** Flag overly permissive egress rules during audit runs
+- **Business Impact:** Identifies potential data exfiltration paths without real-time monitoring costs
+- **Cost:** $0.00 (API calls only, no CloudWatch monitoring)
 
-#### **CIS-4.4: Route Table Changes Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for network routing modifications
-- **Logic:** Verify CloudWatch metric filters exist for: CreateRoute, DeleteRoute, ReplaceRoute, CreateRouteTable, DeleteRouteTable
-- **Expected Result:** Ensure network topology changes trigger immediate alerts
-- **Business Impact:** Detects potential network hijacking or unauthorized routing modifications
+#### **❌ EXCLUDED: Real-Time Network Monitoring (PAID)**
+*The following controls require CloudWatch metric filters + alarms ($0.50/month each):*
+- **CIS-4.4:** Route Table Changes Monitoring → **EXCLUDED** (would cost $0.50/month)
+- **CIS-4.5:** Network ACL Changes Monitoring → **EXCLUDED** (would cost $0.50/month)  
+- **CIS-4.6:** Network Gateway Changes Monitoring → **EXCLUDED** (would cost $0.50/month)
 
-#### **CIS-4.5: Network ACL Changes Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for Network ACL modifications
-- **Logic:** Verify metric filters exist for: CreateNetworkAcl, DeleteNetworkAcl, CreateNetworkAclEntry, DeleteNetworkAclEntry
-- **Expected Result:** Ensure subnet-level security changes are monitored and alerted
-- **Business Impact:** Prevents unauthorized network access control modifications
+**FREE Alternative:** Document these as manual monitoring recommendations in audit reports
 
-#### **CIS-4.6: Network Gateway Changes Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for critical network gateway modifications
-- **Logic:** Verify metric filters for: CreateInternetGateway, AttachInternetGateway, CreateVpnGateway, CreateVpcPeeringConnection
-- **Expected Result:** Monitor changes to network connectivity and external access points
-- **Business Impact:** Detects unauthorized external network connections or VPC modifications
+### **❌ EXCLUDED: Real-Time Monitoring & Alerting (8 Controls)**
+*The following controls require paid CloudWatch services and are excluded from FREE implementation:*
 
-### **Phase 4: Enhanced Monitoring & Alerting (5 Additional Controls)**
+#### **EXCLUDED - CIS-3.1: Enhanced Unauthorized API Calls Monitoring** 💰
+- **Reason:** Requires CloudWatch metric filters ($0.50/month) + alarms ($0.50/month)
+- **Cost:** ~$1.00/month minimum
+- **FREE Alternative:** Basic API failure detection via CloudTrail lookup during audit runs
 
-#### **CIS-3.1: Unauthorized API Calls Enhanced Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** Existing unauthorized API monitoring may need enhanced pattern detection
-- **Logic:** Verify comprehensive metric filters for: UnauthorizedOperation, AccessDenied, with severity-based alerting
-- **Expected Result:** Multi-tier alerting based on API call failure patterns and frequency
-- **Business Impact:** Early detection of potential credential compromise or privilege escalation attempts
+#### **EXCLUDED - CIS-3.2: Root Account Usage Monitoring** 💰  
+- **Reason:** Real-time alerting requires CloudWatch alarms + SNS notifications
+- **Cost:** $0.50/month alarm + $0.50/month SNS + per-message costs
+- **FREE Alternative:** Root usage detection during regular audit runs (not real-time)
 
-#### **CIS-3.2: Root Account Usage Monitoring** 🔥 *Critical*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms()`, `sns.list_topics()`
-- **Current Gap:** No real-time alerting for root account usage
-- **Logic:** Verify metric filter exists for root user events with immediate SNS notification
-- **Expected Result:** Instant alerts when root account is used for any operations
-- **Business Impact:** Immediate notification of highest-risk account activity
+#### **EXCLUDED - CIS-3.3: IAM User Creation Monitoring** 💰
+- **Reason:** Requires CloudWatch metric filters + alarms  
+- **Cost:** ~$1.00/month
+- **FREE Alternative:** Detect recent IAM changes during audit runs
 
-#### **CIS-3.3: IAM User Creation Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for new IAM entity creation
-- **Logic:** Verify metric filters for: CreateUser, CreateRole, CreateGroup, AttachUserPolicy, AttachRolePolicy
-- **Expected Result:** Alert on new IAM entities and permission assignments
-- **Business Impact:** Detects potential privilege escalation or unauthorized account creation
+#### **EXCLUDED - CIS-3.4: CloudTrail Changes Monitoring** 💰
+- **Reason:** Real-time monitoring requires CloudWatch services
+- **Cost:** ~$1.00/month  
+- **FREE Alternative:** Check CloudTrail configuration during audit runs
 
-#### **CIS-3.4: CloudTrail Configuration Changes Monitoring** 🟡 *High*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for CloudTrail security modifications
-- **Logic:** Verify metric filters for: StopLogging, DeleteTrail, UpdateTrail, PutEventSelectors
-- **Expected Result:** Immediate alerting when audit logging is disabled or modified
-- **Business Impact:** Prevents attackers from disabling audit trails to cover their tracks
+#### **EXCLUDED - CIS-3.5: Console Sign-in Monitoring** 💰
+- **Reason:** Requires CloudWatch metric filters + alarms
+- **Cost:** ~$1.00/month
+- **FREE Alternative:** Analyze authentication events during audit runs
 
-#### **CIS-3.5: Console Sign-in Monitoring** 🟡 *Medium*
-**Implementation Requirements:**
-- **AWS APIs:** `logs.describe_metric_filters()`, `cloudwatch.describe_alarms_for_metric()`
-- **Current Gap:** No monitoring for authentication events and patterns
-- **Logic:** Verify metric filters for: ConsoleLogin without MFA, failed authentication attempts
-- **Expected Result:** Monitor authentication patterns and detect potential brute force attacks
-- **Business Impact:** Early detection of credential attacks and unauthorized access attempts
+#### **EXCLUDED - CIS-4.4, 4.5, 4.6: Network Change Monitoring** 💰
+- **Reason:** Real-time monitoring requires CloudWatch metric filters + alarms
+- **Cost:** ~$1.50/month (3 controls × $0.50 each)  
+- **FREE Alternative:** Static network configuration analysis during audit runs
+
+**Total EXCLUDED Cost:** ~$8-12/month for real-time monitoring capabilities
 
 ---
 
 ## 🏗️ Implementation Architecture
 
-### **File Structure for 40-Control Implementation:**
+### **File Structure for 32-Control FREE Implementation:**
 ```
 project-2-cloud-security/
 ├── auditors/
@@ -256,10 +238,10 @@ project-2-cloud-security/
 │   ├── network_auditor.py          # ✅ Current 3 controls
 │   ├── logging_auditor.py          # ✅ Current 4 controls
 │   ├── monitoring_auditor.py       # ✅ Current 2 controls
-│   ├── enhanced_iam_auditor.py     # 🆕 8 additional IAM controls
-│   ├── advanced_storage_auditor.py # 🆕 5 additional storage controls
-│   ├── enhanced_network_auditor.py # 🆕 4 additional network controls
-│   └── advanced_monitoring_auditor.py # 🆕 5 additional monitoring controls
+│   ├── enhanced_iam_auditor.py     # 🆕 8 additional IAM controls (FREE)
+│   ├── advanced_storage_auditor.py # 🆕 5 additional storage controls (FREE)
+│   └── basic_network_auditor.py    # 🆕 1 additional network control (FREE)
+│   # ❌ advanced_monitoring_auditor.py excluded (would require paid CloudWatch)
 ```
 
 ### **Integration Requirements:**
@@ -272,23 +254,22 @@ from auditors.advanced_storage_auditor import AdvancedStorageAuditor
 from auditors.enhanced_network_auditor import EnhancedNetworkAuditor  
 from auditors.advanced_monitoring_auditor import AdvancedMonitoringAuditor
 
-def run_comprehensive_audit():
-    """Execute all 40 CIS controls"""
+def run_free_comprehensive_audit():
+    """Execute all 32 FREE CIS controls"""
     results = []
-    # Existing auditors (18 controls)
+    # Existing auditors (18 controls) - FREE
     results.extend(IAMAuditor(session).audit_all())
     results.extend(StorageAuditor(session).audit_all()) 
     results.extend(NetworkAuditor(session).audit_all())
     results.extend(LoggingAuditor(session).audit_all())
     results.extend(MonitoringAuditor(session).audit_all())
     
-    # Enhanced auditors (22 additional controls)  
-    results.extend(EnhancedIAMAuditor(session).audit_all())
-    results.extend(AdvancedStorageAuditor(session).audit_all())
-    results.extend(EnhancedNetworkAuditor(session).audit_all())
-    results.extend(AdvancedMonitoringAuditor(session).audit_all())
+    # Enhanced FREE auditors (14 additional controls - $0.00)  
+    results.extend(EnhancedIAMAuditor(session).audit_all())        # 8 controls
+    results.extend(AdvancedStorageAuditor(session).audit_all())    # 5 controls
+    results.extend(BasicNetworkAuditor(session).audit_all())       # 1 control
     
-    return results  # 40 total controls
+    return results  # 32 total controls, $0.00 monthly cost
 ```
 
 #### **Database Schema Updates (`database.py`):**
@@ -323,35 +304,38 @@ def calculate_comprehensive_metrics():
 ## 📋 Implementation Timeline & Phases
 
 ### **Phase 1: Foundation Controls (Current State) - ✅ COMPLETE**
-**18 Controls Implemented - Production Ready**
+**18 Controls Implemented - Production Ready - FREE**
 - **IAM Foundation:** 6 controls covering basic IAM security
 - **Storage Foundation:** 3 controls for S3 encryption and access
 - **Network Foundation:** 3 controls for security groups and VPC
 - **Logging Foundation:** 4 controls for CloudTrail and Config
 - **Monitoring Foundation:** 2 controls for basic metric filters
 - **Current Compliance Score:** 66.7% (Real AWS environment)
+- **Monthly Cost:** $0.00
 
-### **Phase 2: Critical Security Enhancement - 🎯 PRIORITY**
-**Timeline: 2-3 weeks | 8 Critical Controls**
+### **Phase 2: FREE IAM Security Enhancement - 🆓 PRIORITY**
+**Timeline: 1-2 weeks | 8 Controls | Cost: $0.00**
 - **Week 1:** Root Account Hardening (CIS-1.1, 1.2, 1.6, 1.7) - 4 CRITICAL controls
 - **Week 2:** IAM User Security (CIS-1.3, 1.5, 1.8, 1.9) - 4 HIGH controls
-- **Expected Compliance Improvement:** +20% (total 86.7%)
+- **Expected Compliance Improvement:** +15% (total 81.7%)
 - **Risk Reduction:** Eliminates highest-impact attack vectors
+- **Implementation:** Pure API calls, no paid services
 
-### **Phase 3: Enhanced Detection & Response - 🚀 ENTERPRISE**
-**Timeline: 2-3 weeks | 9 Enhanced Controls**
-- **Week 1:** Storage Security Enhancement (CIS-2.3, 2.6, 2.8, 2.10) - 4 controls
-- **Week 2:** Advanced Monitoring (CIS-3.1, 3.2, 3.3, 3.4, 3.5) - 5 controls  
-- **Expected Compliance Improvement:** +8% (total 94.7%)
-- **Capability Enhancement:** Real-time threat detection
+### **Phase 3: FREE Storage Security Enhancement - 🆓 STORAGE**
+**Timeline: 1 week | 5 Controls | Cost: $0.00**
+- **Week 1:** Storage Security (CIS-2.3, 2.6, 2.8, 2.10, 2.11) - 5 controls
+- **Expected Compliance Improvement:** +3% (total 84.7%)
+- **Capability Enhancement:** Comprehensive data protection
+- **Implementation:** API detection only, no CloudWatch costs
 
-### **Phase 4: Comprehensive Network Monitoring - 🔒 ADVANCED**
-**Timeline: 1-2 weeks | 5 Network Controls**
-- **Week 1:** Network Security & Monitoring (CIS-4.2, 4.4, 4.5, 4.6, plus 1 additional)
-- **Expected Compliance Improvement:** +5.3% (total 100%)
-- **Final State:** Complete CIS AWS Foundation Benchmark compliance
+### **Phase 4: FREE Network Security Analysis - 🆓 NETWORK**
+**Timeline: 1 day | 1 Control | Cost: $0.00**
+- **Day 1:** Network Security Analysis (CIS-4.2) - 1 control
+- **Expected Compliance Improvement:** +1% (total 85.7%)
+- **Final State:** 32/40 CIS controls (80% compliance) at zero cost
+- **Implementation:** Static security group analysis
 
-### **Total Implementation Timeline: 6-8 weeks**
+### **Total FREE Implementation Timeline: 3-4 weeks, $0.00 monthly cost**
 
 ---
 
@@ -432,32 +416,32 @@ class TestCIS_1_1_RootMFA:
 
 ## 📊 Success Metrics & KPIs
 
-### **Compliance Metrics:**
-| Metric | Current (18 controls) | Target (40 controls) | Improvement |
-|--------|----------------------|---------------------|-------------|
-| **CIS Controls Coverage** | 18/40 (45%) | 40/40 (100%) | +122% |
-| **Compliance Score** | 66.7% | 95%+ | +42.5% |
-| **Critical Controls** | 4/12 (33%) | 12/12 (100%) | +200% |
-| **High Priority Controls** | 8/16 (50%) | 16/16 (100%) | +100% |
-| **Real-time Monitoring** | 2 controls | 15+ controls | +650% |
+### **FREE Implementation Compliance Metrics:**
+| Metric | Current (18 controls) | FREE Target (32 controls) | Improvement |
+|--------|----------------------|---------------------------|-------------|
+| **CIS Controls Coverage** | 18/40 (45%) | 32/40 (80%) | +78% |
+| **Compliance Score** | 66.7% | 80-85% | +18-25% |
+| **Critical Controls** | 4/12 (33%) | 8/12 (67%) | +100% |
+| **High Priority Controls** | 8/16 (50%) | 13/16 (81%) | +62% |
+| **Monthly AWS Cost** | $0.00 | $0.00 | No cost increase |
 
-### **Technical Performance Metrics:**
-| Metric | Current | Target | Impact |
-|--------|---------|---------|---------|
-| **Audit Execution Time** | ~3 minutes | <5 minutes | Scalable performance |
-| **AWS API Calls** | ~50 calls | ~120 calls | Efficient API usage |
-| **Database Records** | ~200/audit | ~500/audit | Comprehensive evidence |
-| **Dashboard Load Time** | <10 seconds | <15 seconds | Responsive analytics |
-| **Error Handling** | 95% coverage | 99% coverage | Production reliability |
+### **FREE Technical Performance Metrics:**
+| Metric | Current | FREE Target | Impact |
+|--------|---------|-------------|---------|
+| **Audit Execution Time** | ~3 minutes | <4 minutes | Maintained performance |
+| **AWS API Calls** | ~50 calls | ~85 calls | Efficient scaling |
+| **Database Records** | ~200/audit | ~350/audit | Enhanced evidence |
+| **Dashboard Load Time** | <10 seconds | <12 seconds | Responsive analytics |
+| **Error Handling** | 95% coverage | 98% coverage | Production reliability |
 
-### **Business Impact Metrics:**
-| Metric | Current Value | Target Value | Business Impact |
-|--------|---------------|--------------|-----------------|
-| **Risk Coverage** | 65% | 95% | Comprehensive risk mitigation |
+### **FREE Business Impact Metrics:**
+| Metric | Current Value | FREE Target Value | Business Impact |
+|--------|---------------|------------------|-----------------|
+| **Risk Coverage** | 65% | 80% | Significant risk reduction |
 | **Audit Frequency** | Monthly | Weekly/Daily | Continuous compliance |
-| **Manual Effort** | 4 hours/audit | <30 minutes | 87% time savings |
-| **Compliance Cost** | $2,000/month | $200/month | 90% cost reduction |
-| **Time to Remediation** | 2-4 weeks | 1-3 days | 85% faster response |
+| **Manual Effort** | 4 hours/audit | <45 minutes | 80% time savings |
+| **Compliance Cost** | $0/month | $0/month | Zero operational cost |
+| **Implementation Cost** | $0 | $0 | Complete FREE solution |
 
 ---
 
@@ -517,13 +501,20 @@ class TestCIS_1_1_RootMFA:
 
 ## 🏆 Final Portfolio Position
 
-**This 40-control CIS implementation transforms the CSPM project from a strong foundation (18 controls) into an industry-leading, enterprise-ready security solution that demonstrates comprehensive cloud security expertise, technical leadership, and business acumen.**
+**This 32-control FREE CIS implementation transforms the CSPM project from a strong foundation (18 controls) into a comprehensive, cost-effective security solution that demonstrates advanced cloud security expertise, technical efficiency, and business acumen.**
 
 ### **Key Differentiators:**
-- **Scale:** 40 automated controls (industry-leading)
+- **Scale:** 32 automated controls (exceeds many commercial FREE tiers)
 - **Quality:** Production AWS environment with real compliance results
-- **Innovation:** Advanced monitoring and real-time alerting capabilities  
-- **Business Value:** Quantified ROI and risk reduction metrics
-- **Professional Impact:** Demonstrates senior cloud security engineering capabilities
+- **Cost Efficiency:** $0.00 monthly operational cost (100% FREE)
+- **Business Value:** Maximum security value with zero ongoing expenses
+- **Professional Impact:** Demonstrates senior cloud security engineering with cost consciousness
 
-This expansion plan positions the CSPM project as a comprehensive, enterprise-ready security solution demonstrating senior-level cloud security engineering capabilities that exceed most commercial offerings in both scope and technical implementation quality.
+### **Competitive Advantages of FREE Approach:**
+- **80% CIS compliance** at zero cost vs commercial tools ($100-500/month)
+- **Real AWS environment** validation vs simulated demo environments
+- **Production quality** code with comprehensive error handling
+- **Scalable architecture** - can add paid monitoring features when budget allows
+- **Cost-conscious engineering** - demonstrates efficient resource utilization
+
+This FREE expansion plan positions the CSPM project as a highly effective, zero-cost security solution demonstrating senior-level cloud security engineering capabilities with exceptional business value and cost efficiency.
