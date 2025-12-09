@@ -51,28 +51,24 @@ An end-to-end machine learning pipeline that detects DDoS attacks from network t
 
 ### 2. ☁️ [Cloud Security Posture Management (CSPM) Auditor](./project-2-cloud-security)
 
-**Status:** 🎯 **PRODUCTION READY** | **Tech Stack:** Python, AWS, boto3, SQLite, Tableau, Terraform
+**Status:** 🎯 **PRODUCTION READY** | **Tech Stack:** Python, AWS, boto3, SQLite, Streamlit
 
-A production-ready AWS compliance auditor that performs **live security assessments** on real cloud infrastructure. Features 18 CIS AWS Foundation Benchmark controls with automated Tableau dashboard generation.
+A production-ready AWS compliance auditor that performs **live security assessments** on real cloud infrastructure. Features **32 CIS AWS Foundation Benchmark v1.4.0 controls** with an interactive Streamlit dashboard.
 
-**🚀 Live Results (Dec 1, 2025):**
-- ✅ **66.7% Compliance Score** - Real AWS audit with actionable findings
-- ✅ **4 Security Findings** - Specific AWS resources requiring attention
-- ✅ **Real Resources Audited** - `sg-0b956aa6b4c402eb1`, `admin-user`, `vpc-0af85f16d6ae66b9a`
-- ✅ **Dashboard Automation** - 10-minute professional BI setup
+<p align="center">
+  <img src="./project-2-cloud-security/docs/dashboard_screenshot.png" alt="Project 2 Dashboard" width="800"/>
+</p>
 
 **🎯 Key Achievements:**
-- ✅ **18 CIS Controls** - IAM, Logging, Storage, Networking, Monitoring
+- ✅ **32 CIS Controls** - IAM (10), Storage (8), Logging (5), Monitoring (5), Networking (4)
 - ✅ **Live AWS Integration** - Real boto3 API calls with actual resource validation
-- ✅ **Executive Dashboards** - Category performance, trends, remediation priorities
-- ✅ **Compliance Automation** - Complete SQLite → Pandas → Tableau pipeline
-- ✅ **Production Infrastructure** - Terraform deployment with 22 AWS resources
+- ✅ **Interactive Dashboard** - Streamlit app with executive and technical views
+- ✅ **Compliance Automation** - Complete SQLite → Pandas → Dashboard pipeline
 
 **📊 Business Impact:**
-- **Category Performance**: Storage 100%, IAM 80%, Networking 33%, Monitoring 0%
-- **Improvement Potential**: Historical data shows 93.8% peak capability
+- **Continuous Monitoring**: 24/7 security posture visibility
+- **Risk Reduction**: Proactive identification of security gaps
 - **Specific Remediation**: AWS resource IDs with step-by-step security fixes
-- **ROI Demonstration**: Immediate business intelligence deployment ready
 
 **🔗 [View Project →](./project-2-cloud-security)**
 

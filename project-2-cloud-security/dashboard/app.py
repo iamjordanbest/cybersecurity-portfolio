@@ -535,8 +535,6 @@ with tab5:
     - **$200K+ Annual Savings**: Eliminates consultant dependencies
     - **Continuous Monitoring**: 24/7 security posture visibility
     - **Risk Reduction**: Proactive identification of security gaps
-    
-    This project represents the intersection of cybersecurity expertise, software engineering excellence, and business value delivery - exactly what enterprises need in today's threat landscape.
     """)
     
     # Project statistics

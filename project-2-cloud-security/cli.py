@@ -8,6 +8,7 @@ from auditors.logging_auditor import LoggingAuditor
 from auditors.storage_auditor import StorageAuditor
 from auditors.network_auditor import NetworkAuditor
 from auditors.monitoring_auditor import MonitoringAuditor
+from auditors.iam_auditor import IAMAuditor
 from models.compliance import ControlStatus
 
 # Setup logging

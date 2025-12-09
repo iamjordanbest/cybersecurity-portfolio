@@ -15,6 +15,7 @@ class LoggingAuditor(BaseAuditor):
         results.append(self.audit_cloudtrail_encryption())
         results.append(self.audit_cloudtrail_log_validation())
         results.append(self.audit_aws_config_enabled())
+        results.append(self.audit_cloudwatch_integration())
         return results
 
     def audit_cloudtrail_enabled(self):
@@ -149,16 +150,16 @@ class LoggingAuditor(BaseAuditor):
         )
         
         try:
-            recorders = self.config.describe_configuration_recorders()['ConfigurationRecorders']
-            statuses = self.config.describe_configuration_recorder_status()['ConfigurationRecorderStatusList']
+            recorders = self.config.describe_configuration_recorders().get('ConfigurationRecorders', [])
+            statuses = self.config.describe_configuration_recorder_status().get('ConfigurationRecorderStatusList', [])
             
             valid_recorders = []
             for recorder in recorders:
                 name = recorder['name']
                 status = next((s for s in statuses if s['name'] == name), None)
                 
-                if status and status['recording']:
-                    if recorder['recordingGroup'].get('allSupported', False) and recorder['recordingGroup'].get('includeGlobalResourceTypes', False):
+                if status and status.get('recording', False):
+                    if recorder.get('recordingGroup', {}).get('allSupported', False) and recorder.get('recordingGroup', {}).get('includeGlobalResourceTypes', False):
                         valid_recorders.append(name)
             
             evidence = [
@@ -184,5 +185,44 @@ class LoggingAuditor(BaseAuditor):
                     )],
                     evidence=evidence
                 )
+        except ClientError as e:
+            # Handle case where Config is not set up at all
+            if e.response['Error']['Code'] in ['NoSuchConfigurationRecorderException', 'ResourceNotFoundException']:
+                return self.create_assessment(
+                    control,
+                    ControlStatus.FAIL,
+                    findings=[Finding(
+                        control_id=control.control_id,
+                        severity=Severity.HIGH,
+                        description="AWS Config is not configured.",
+                        remediation="Set up AWS Config in your account."
+                    )]
+                )
+            return self.handle_error(control.control_id, e)
+
+    def audit_cloudwatch_integration(self):
+        """CIS-2.4: Ensure CloudTrail trails are integrated with CloudWatch Logs"""
+        control = Control(
+            control_id="CIS-2.4",
+            title="CloudWatch Logs Integration",
+            description="Ensure CloudTrail trails are integrated with CloudWatch Logs.",
+            severity=Severity.HIGH,
+            category="Logging",
+            cis_reference="2.4"
+        )
+        try:
+            trails = self.cloudtrail.describe_trails()['trailList']
+            integrated_trails = []
+            
+            for trail in trails:
+                if trail.get('CloudWatchLogsLogGroupArn'):
+                    integrated_trails.append(trail['Name'])
+            
+            evidence = [EvidenceArtifact(control.control_id, "api_output", "Integrated Trails", integrated_trails)]
+            
+            if integrated_trails:
+                return self.create_assessment(control, ControlStatus.PASS, evidence=evidence)
+            else:
+                return self.create_assessment(control, ControlStatus.FAIL, findings=[Finding(control.control_id, Severity.HIGH, "No CloudTrail trails integrated with CloudWatch.", "Configure CloudTrail to send logs to CloudWatch.")], evidence=evidence)
         except ClientError as e:
             return self.handle_error(control.control_id, e)

@@ -3,27 +3,27 @@
 **Status:** 🎯 **PRODUCTION READY** - Dashboard Automation Complete  
 **Type:** GRC + Cloud Security + Data Visualization  
 **Stack:** AWS, Python (boto3), SQLite, Streamlit  
-**Controls Implemented:** 18/20 CIS AWS Foundations Benchmark  
-**Latest Assessment:** 66.7% Compliance (Dec 1, 2025) with Real AWS Resources
+**Controls Implemented:** 32 CIS AWS Foundations Benchmark v1.4.0  
+**Latest Assessment:** Live AWS compliance auditing with interactive dashboard
 
 ---
 
 ## Overview
 
-A **production-ready** automated compliance auditor for AWS infrastructure that validates 18 CIS AWS Foundations Benchmark controls. Features live AWS audit results (66.7% compliance as of Dec 1, 2025) with an interactive **Streamlit dashboard** for real-time visualization.
+A **production-ready** automated compliance auditor for AWS infrastructure that validates **32 CIS AWS Foundations Benchmark v1.4.0** controls. Features live AWS audit results with an interactive **Streamlit dashboard** for real-time compliance visualization and remediation tracking.
 
 **🚀 Recent Achievements:**
-- ✅ **Live AWS audit completed** - Real security findings with specific resource IDs
+- ✅ **32 CIS Controls** - Standardized implementation across 5 security domains
 - ✅ **Interactive Dashboard** - Streamlit app with executive and technical views
 - ✅ **Structured data pipeline** - SQLite storage for historical trend analysis
-- ✅ **4 failed controls identified** - Actionable AWS security improvements
-- ✅ **30-day compliance trends** - Historical performance tracking
+- ✅ **Live AWS auditing** - Real security findings with specific resource IDs
+- ✅ **Automated remediation guidance** - Actionable fixes for failed controls
 
 **Key Differentiators:**
-- 🎯 **Real AWS security assessment** - Live audit of actual cloud resources
+- 🎯 **Comprehensive coverage** - 32 controls across IAM (10), Storage (8), Logging (5), Monitoring (5), Networking (4)
 - 🎨 **Interactive Visualization** - Streamlit dashboard with Plotly charts
 - 📊 **Executive-ready reporting** - Category performance, trends, remediation priorities
-- 🔧 **Technical depth** - 18 production-quality auditors across 5 security domains
+- 🔧 **Production-quality code** - Modular auditors with full AWS API integration
 - 📈 **Data processing pipeline** - SQLite → Pandas → Dashboard
 
 ---
@@ -31,16 +31,16 @@ A **production-ready** automated compliance auditor for AWS infrastructure that 
 ## Features
 
 ### 🔍 **Security Audit Engine**
-- **18 CIS Control Auditors** - Production-quality checks across IAM, logging, storage, networking, monitoring
+- **32 CIS Control Auditors** - Production-quality checks across IAM (10), Storage (8), Logging (5), Monitoring (5), Networking (4)
 - **Real AWS Integration** - Live boto3 API calls with actual resource validation
 - **Evidence Collection** - Structured findings with remediation steps and specific resource IDs
-- **Compliance Database** - SQLite storage tracking 32 assessments with 504 control results
+- **Compliance Database** - SQLite storage for historical assessment tracking
 
 ### 📊 **Interactive Dashboard**
 - **Executive View** - Overall compliance score and category performance
-- **Trend Analysis** - 30-day history of compliance scores and failures
+- **Trend Analysis** - Historical tracking of compliance scores
 - **Remediation Queue** - Prioritized list of failed controls with AWS CLI fixes
-- **Control Explorer** - Searchable database of all 18 controls
+- **Control Explorer** - Searchable database of all 32 CIS controls
 
 ### 🎯 **Current Live Results** 
 - **Latest Assessment**: 66.7% compliance (Assessment ID 32, Dec 1, 2025)
@@ -82,26 +82,49 @@ project-2-cloud-security/
 
 ---
 
-## CIS Controls Implemented (18 Total)
+## CIS Controls Implemented (32 Total)
 
-### Identity & Access Management (IAM)
-| ID | Control | Severity | Status |
-|----|---------|----------|--------|
-| 1.4 | Root Account MFA | Critical | ✅ PASS |
-| 1.12 | Strong Password Policy | High | ✅ PASS |
-| 1.16 | IAM Policies on Groups | Medium | ❌ FAIL |
-| 1.20 | Access Keys Rotated | High | ✅ PASS |
-| 1.14 | Hardware MFA for Root | Critical | ✅ PASS |
+### Identity & Access Management (10)
+- **CIS-1.1** - Root Account MFA Enabled (Critical)
+- **CIS-1.2** - Root Account Access Keys (Critical)
+- **CIS-1.3** - Credentials Unused > 90 Days (High)
+- **CIS-1.5** - Comprehensive Password Policy (High)
+- **CIS-1.6** - Hardware MFA for Root (Critical)
+- **CIS-1.7** - Eliminate Root User Usage (Critical)
+- **CIS-1.8** - IAM User MFA Enabled (High)
+- **CIS-1.9** - Access Key Rotation (High)
+- **CIS-1.15** - IAM Policies Attached to Groups (Medium)
+- **CIS-1.17** - Support Role Created (Medium)
 
-### Logging & Monitoring
-| ID | Control | Severity | Status |
-|----|---------|----------|--------|
-| 2.1 | CloudTrail Enabled | Critical | ✅ PASS |
-| 2.2 | Log Validation | Medium | ✅ PASS |
-| 2.7 | CloudTrail Encryption | High | ❌ FAIL |
-| 4.4 | IAM Policy Changes | Medium | ❌ FAIL |
-| 4.5 | CloudTrail Changes | Medium | ❌ FAIL |
-| 4.9 | AWS Config Changes | Medium | ❌ FAIL |
+### Storage Security (8)
+- **CIS-2.1.1** - S3 Bucket Encryption (High)
+- **CIS-2.1.2** - S3 Bucket Versioning (Medium)
+- **CIS-2.1.5** - S3 Block Public Access (Critical)
+- **CIS-2.3** - S3 Access Logging (Medium)
+- **CIS-2.6** - S3 Public Read Disabled (Critical)
+- **CIS-2.8** - KMS Key Rotation (High)
+- **CIS-2.10** - S3 Object Logging (Medium)
+- **CIS-2.11** - Enforce SSL in S3 Policies (High)
+
+### Logging (5)
+- **CIS-2.1** - CloudTrail Enabled in All Regions (Critical)
+- **CIS-2.2** - CloudTrail Log File Validation (Medium)
+- **CIS-2.4** - CloudWatch Logs Integration (High)
+- **CIS-2.5** - AWS Config Enabled (High)
+- **CIS-2.7** - CloudTrail Logs Encrypted with KMS (High)
+
+### Monitoring (5)
+- **CIS-3.1** - Metric Filter: Unauthorized API Calls (Medium)
+- **CIS-3.2** - Metric Filter: Console Sign-in without MFA (Medium)
+- **CIS-3.4** - Metric Filter: IAM Policy Changes (Medium)
+- **CIS-3.5** - Metric Filter: CloudTrail Config Changes (Medium)
+- **CIS-3.9** - Metric Filter: AWS Config Changes (Medium)
+
+### Networking (4)
+- **CIS-5.1** - No Unrestricted SSH/RDP Access (Critical)
+- **CIS-5.2** - No Unrestricted Egress (Medium)
+- **CIS-5.3** - Default Security Group Closed (High)
+- **CIS-2.9** - VPC Flow Logs Enabled (High)
 
 ---
 
